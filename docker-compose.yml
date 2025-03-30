@@ -1,0 +1,61 @@
+version: '2'
+services:
+
+  ldap:
+    build: ./ldap
+    container_name: ldap
+    environment:
+      - LDAP_ORGANISATION=${LDAP_ORGANISATION}
+      - LDAP_DOMAIN=${LDAP_DOMAIN}
+      - LDAP_BASE_DN=${LDAP_BASE_DN}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_READONLY_USER_PASSWORD=${LDAP_USER_PASSWORD}
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ./ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
+    command: --copy-service 
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "ldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - ldap
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - ./db/data/:/data/db/
+      - ./db/scripts/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    command: mongod --quiet --logpath /dev/null 
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 25
+
+  compass:
+    image: mongo-express:latest
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_DB_USERNAME}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_DB_PASSWORD}
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      # - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=${COMPASS_USERNAME}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${COMPASS_PASSWORD}
+    ports:
+      - 58081:8081
+    depends_on:
+      mongo:
+        condition: service_healthy

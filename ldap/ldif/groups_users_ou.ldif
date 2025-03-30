@@ -1,0 +1,11 @@
+# Gruppen erstellen
+dn: ou=groups,{{ LDAP_BASE_DN }}
+ou: groups
+objectClass: top
+objectClass: organizationalUnit
+
+# User erstellen
+dn: ou=users,{{ LDAP_BASE_DN }}
+ou: users
+objectClass: top
+objectClass: organizationalUnit

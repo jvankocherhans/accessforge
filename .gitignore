@@ -3,3 +3,5 @@ src/Lib/
 src/Include/
 src/__pycache__
 pyvenv.cfg
+
+db/data
