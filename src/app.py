@@ -4,7 +4,7 @@ from helper import get_env_variable
 app = Flask(__name__)
 
 app.config['WTF_CSRF_ENABLED'] = False
-app.secret_key = "your_secret_key"
+app.secret_key = "my_secret_key"
 
 # register blueprints here...
 
