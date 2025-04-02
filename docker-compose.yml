@@ -59,3 +59,12 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+
+  accessforge:
+    build: ./src
+    container_name: accessforge
+    ports:
+      - "5000:5000"
+    depends_on:
+      - ldap
+      - mongo
