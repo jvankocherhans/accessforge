@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suchseite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='/stylesheet/search.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="header-right">
+      <a href="xx.html" class="icon-button"><i class="fas fa-plus"></i></a>
+      <a href="xx.html" class="icon-button"><i class="fas fa-user"></i></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="search-container">
+      <select class="dropdown">
+        <option value="gruppe">Gruppe</option>
+        <option value="user">User</option>
+      </select>
+      <input type="text" placeholder="Suche..." class="search-input" />
+      <button class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+  </main>
+</body>
+</html>
