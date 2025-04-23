@@ -24,17 +24,29 @@
     gap: 20px;
   }
   
-  .icon-button {
+  .icon-button-plus {
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    
+  }
+
+  .icon-button-user {
     color: #fff;
     font-size: 1.5rem;
     text-decoration: none;
     transition: color 0.3s;
   }
   
-  .icon-button:hover {
+  .icon-button-plus:hover {
     color: #d1b3ff;
   }
   
+  .icon-button-user:hover {
+    color: #d1b3ff;
+  }
+
   main {
     flex: 1;
     display: flex;
