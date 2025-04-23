@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
 </head>
 <body>
+  {% from "includes/_formhelpers.html" import render_field %}
   <div class="login-wrapper">
     <div class="login-container">
       <div class="logo">
@@ -30,12 +31,11 @@
       <form action="{{ url_for('users_blueprint.index') }}" method="POST" class="login-form">
         <div class="input-group">
           <label for="username"><i class="fas fa-user"></i> Benutzername</label>
-          <input type="text" id="username" name="username" placeholder="Geben Sie Ihren Benutzernamen ein" required>
+          {{ render_field(form.user_name, class_="form-control", value="") }}
         </div>
-
         <div class="input-group">
           <label for="password"><i class="fas fa-lock"></i> Passwort</label>
-          <input type="password" id="password" name="password" placeholder="Geben Sie Ihr Passwort ein" required>
+          {{ render_field(form.user_password , class_="form-control", value="") }}
         </div>
 
         <button type="submit" class="btn-login">
@@ -45,14 +45,6 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+  
 </body>
 </html>
