@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='/stylesheets/global.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='/stylesheets/login.css')">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Flask LDAP3 Authentication Example</title>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Self-Service Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
 </head>
-
 <body>
+  <div class="login-wrapper">
+    <div class="login-container">
+      <div class="logo">
+        <i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      </div>
+      
+      <h1>Self-Service Portal</h1>
+      <p class="subtitle">Bitte melden Sie sich mit Ihren AD-Anmeldedaten an</p>
 
-<br>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading">Authentication Failed</h4>
-  <p>Well! You couldn't pass through the authentication,</p>
-  <hr>
-  <p class="mb-0">Authentication failed due to {{ error_message }}</p>
-</div>
+      {% if error_message %}
+      <div class="alert-danger" role="alert">
+        <h4 class="alert-heading">Authentifizierung fehlgeschlagen</h4>
+        <p>Die Anmeldung konnte nicht verifiziert werden.</p>
+        <hr>
+        <p class="mb-0">Fehler: {{ error_message }}</p>
+      </div>
+      {% endif %}
 
-<br>
+      <form action="{{ url_for('users_blueprint.index') }}" method="POST" class="login-form">
+        <div class="input-group">
+          <label for="username"><i class="fas fa-user"></i> Benutzername</label>
+          <input type="text" id="username" name="username" placeholder="Geben Sie Ihren Benutzernamen ein" required>
+        </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        <div class="input-group">
+          <label for="password"><i class="fas fa-lock"></i> Passwort</label>
+          <input type="password" id="password" name="password" placeholder="Geben Sie Ihr Passwort ein" required>
+        </div>
+
+        <button type="submit" class="btn-login">
+          <i class="fas fa-sign-in-alt"></i> Anmelden
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -36,42 +54,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Self-Service Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
-</head>
-<body>
-
-  {% include 'includes/_flashmsg.html' %}
-
-  <div class="login-wrapper">
-    <div class="login-container">
-      <h1>Self-Service Portal</h1>
-      <p class="subtitle">Bitte melde dich an</p>
-
-      <form action="{{ url_for('login') }}" method="POST" class="login-form">
-        <div class="input-group">
-          <label for="username">Benutzername</label>
-          <input type="text" id="username" name="username" placeholder="Benutzername" required>
-        </div>
-
-        <div class="input-group">
-          <label for="password">Passwort</label>
-          <input type="password" id="password" name="password" placeholder="Passwort" required>
-        </div>
-
-        <button type="submit" class="btn-login">Login</button>
-      </form>
-    </div>
-  </div>
 </body>
 </html>
