@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Suchseite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suche | Self-Service Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/search.css') }}">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <div class="header-right">
-      <a href="new_object.html" class="icon-button-plus"><i class="fas fa-plus"></i></a>
-      <a href="user.html" class="icon-button-user"><i class="fas fa-user"></i></a>
-    </div>
+  <header class="header">
+    <a href="xx.html" class="icon-button">
+      <i class="fas fa-plus"></i>
+    </a>
+    <a href="xx.html" class="icon-button">
+      <i class="fas fa-user"></i>
+    </a>
   </header>
 
-  <main>
-    <div class="search-container">
+  <main class="main-content">
+    <div class="logo-container">
+      <img src="pictures/logo.png" 
+           alt="Accessforge-Logo" 
+           class="logo"
+           title="Accessforge-Logo">
+    </div>
+
+    <form action="xx.html" class="search-container">
       <select class="dropdown">
         <option value="gruppe">Gruppe</option>
         <option value="user">User</option>
       </select>
-      <input type="text" placeholder="Suche..." class="search-input" />
-      <button class="search-button"><i class="fas fa-search"></i></button>
-    </div>
+      <input type="text" 
+             placeholder="Suchen..." 
+             class="search-input"
+             aria-label="Suchbegriff eingeben">
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
   </main>
+
+  <div class="logout-container">
+    <a href="xx.html" class="logout-link">
+      <i class="fas fa-sign-out-alt"></i> Abmelden
+    </a>
+  </div>
 </body>
 </html>
