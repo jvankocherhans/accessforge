@@ -32,7 +32,6 @@ body {
     radial-gradient(circle at 90% 80%, rgba(123, 44, 191, 0.05) 0%, rgba(123, 44, 191, 0.05) 90%);
 }
 
-
 .button {
   display: inline-block;
   padding: 0.8rem 1.5rem;
