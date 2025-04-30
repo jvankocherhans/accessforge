@@ -27,7 +27,7 @@
            title="Accessforge-Logo">
     </div>
 
-    <form action="{{ url_for('users_blueprint.search') }}" class="search-container">
+    <form action="{{ url_for('search_blueprint.search') }}" method="POST" class="search-container">
       <select class="dropdown" name="search-type">
         <option value="group">Group</option>
         <option value="user">User</option>
