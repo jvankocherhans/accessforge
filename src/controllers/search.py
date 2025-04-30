@@ -24,9 +24,9 @@ def search():
   
   match(search_type):
     case "group":
-      return render_template('listing_group.html')
+      return render_template('listing/listing_group.html')
     case "user":
-      return render_template('listing_user.html')
+      return render_template('listing/listing_user.html')
   
   return render_template('search.html')
   
