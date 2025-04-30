@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User-Profil | Self-Service Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/profile.css') }}">
+</head>
+<body class="user-page">
+  <header class="user-header">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         alt="Accessforge-Logo" 
+         class="small-logo"
+         title="Accessforge-Logo">
+  </header>
+
+  <main class="user-content">
+    <i class="fas fa-user user-icon"></i>
+    
+    <div class="info-card">
+      <div class="info-item">
+        <span class="info-label">Surename:</span>
+        <span class="info-value">Max</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Name:</span>
+        <span class="info-value">Mustermann</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">E-Mail:</span>
+        <span class="info-value">max.mustermann@example.com</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Phone-Number:</span>
+        <span class="info-value">+49 123 456789</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Department:</span>
+        <span class="info-value">IT-Services</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Group:</span>
+        <span class="info-value">
+          <div>Entwickler</div>
+          <div>Projekt-Team</div>
+          <div>IT-Support</div>
+        </span>
+      </div>
+    </div>
+  </main>
+
+  <div class="logout-container">
+    <a href="login.html" class="logout-link">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+</body>
