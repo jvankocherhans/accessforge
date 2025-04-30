@@ -17,7 +17,7 @@ search_blueprint = Blueprint('search_blueprint', __name__)
 def search():
   
   search_type = request.form.get('search-type')
-  search_input = request.form.get('serach-input')
+  search_input = request.form.get('search-input')
   
   print(search_input)
   print(search_type)
