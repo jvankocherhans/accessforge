@@ -36,6 +36,9 @@ def index():
 
     return render_template('login.html', form=form)
 
+@users_blueprint.route("/profile", methods=["GET"])
+def profile():
+    return render_template('profile.html')
 
 # @users_blueprint.route("/dashboard", methods=["GET", "POST"])
 # @requires_access_level(ACCESS['guest'])
