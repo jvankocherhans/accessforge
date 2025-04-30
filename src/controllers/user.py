@@ -40,6 +40,7 @@ def index():
 def profile():
     return render_template('profile.html')
 
+
 # @users_blueprint.route("/dashboard", methods=["GET", "POST"])
 # @requires_access_level(ACCESS['guest'])
 # def dashboard():
