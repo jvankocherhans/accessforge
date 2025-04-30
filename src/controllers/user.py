@@ -28,13 +28,17 @@ def index():
         # validate the connection
         if login_msg == "Success":
             success_message = f"*** Authentication Success "
-            return render_template('success.html', success_message=success_message)
+            return render_template('search.html', success_message=success_message)
 
         else:
             error_message = f"*** Authentication Failed - {login_msg}"
             return render_template("error.html", error_message=str(error_message))
 
     return render_template('login.html', form=form)
+
+@users_blueprint.route("/profile", methods=["GET"])
+def profile():
+    return render_template('profile.html')
 
 
 # @users_blueprint.route("/dashboard", methods=["GET", "POST"])
