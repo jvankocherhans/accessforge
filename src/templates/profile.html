@@ -23,30 +23,30 @@
     <div class="info-card">
       <div class="info-item">
         <span class="info-label">Surename:</span>
-        <span class="info-value">Max</span>
+        <span class="info-value">{{ current_user.firstname }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">Name:</span>
-        <span class="info-value">Mustermann</span>
+        <span class="info-value">{{ current_user.lastname }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">E-Mail:</span>
-        <span class="info-value">max.mustermann@example.com</span>
+        <span class="info-value">{{ current_user.mail }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">Phone-Number:</span>
-        <span class="info-value">+49 123 456789</span>
+        <span class="info-value">{{ current_user.phone }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">Department:</span>
-        <span class="info-value">IT-Services</span>
+        <span class="info-value">{{ current_user.department }}</span>
       </div>
       <div class="info-item">
         <span class="info-label">Group:</span>
         <span class="info-value">
-          <div>Entwickler</div>
-          <div>Projekt-Team</div>
-          <div>IT-Support</div>
+          {% for group in current_user.groups %}
+            <div>{{ group }}</div>
+          {% endfor %}
         </span>
       </div>
     </div>
