@@ -11,15 +11,19 @@
 </head>
 <body>
   <header class="header">
-    <a href="xx.html" class="icon-button">
-      <i class="fas fa-plus"></i>
-    </a>
+    
+    {% if is_admin %}
+      <a href="xx.html" class="icon-button">
+        <i class="fas fa-plus"></i>
+      </a>
+    {% endif %}
     <a href="{{ url_for('users_blueprint.profile') }}" class="icon-button">
       <i class="fas fa-user"></i>
     </a>
   </header>
 
   <main class="main-content">
+    {% include "includes/_flashmsg.html" %}
     <div class="logo-container">
       <img src="{{ url_for('static', filename='images/logo.png') }}" 
            alt="Accessforge-Logo" 

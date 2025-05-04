@@ -1,0 +1,14 @@
+{% with messages = get_flashed_messages(with_categories=false) %}
+  {% if messages %}
+    <div class="alert-container">
+      <div class="alert-content">
+        {% for message in messages %}
+          <div class="">{{ message }}</div>
+        {% endfor %}
+      </div>
+      <button type="button" class="btn-close" aria-label="Close">&times;</button>
+    </div>
+  {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='scripts/flashmsg.js') }}"></script>
