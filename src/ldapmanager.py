@@ -9,7 +9,7 @@ from model.models import LdapLoginUser, LdapUser
 import time
 
 class LDAPManager():
-  def __init__(self, ldap_server, base_dn, ldap_conn_user_name, ldap_conn_user_pwd, max_retries=5, retry_delay=5):
+  def __init__(self, ldap_server, base_dn, ldap_conn_user_name, ldap_conn_user_pwd, max_retries=10, retry_delay=5):
     self.ldap_server = ldap_server
     self.base_dn = base_dn
     self.ldap_conn_user_name = ldap_conn_user_name
@@ -114,6 +114,40 @@ class LDAPManager():
         department=department,
         groups=groups,
     )
+
+  def search_users(self, searchinput):
+    # Create the search filter to search in 'givenName', 'sn', or 'uid'
+    search_filter = f'(|(givenName=*{searchinput}*)(sn=*{searchinput}*)(uid=*{searchinput}*))'
+
+    # Perform the search in the 'ou=users' organizational unit
+    self.connection.search(
+        search_base=f'ou=users,{self.base_dn}',
+        search_filter=search_filter,
+        search_scope=SUBTREE,
+        attributes=['givenName', 'sn', 'uid', 'mail', 'telephoneNumber', 'departmentNumber']
+    )
+
+    users = []
+
+    # Loop through the search results and collect the user data
+    for entry in self.connection.entries:
+        # Access the attributes directly from the entry
+        
+        user = LdapUser(
+          username=entry.uid.value if 'uid' in entry else '',
+          firstname=entry.givenName.value if 'givenName' in entry else '',
+          lastname=entry.sn.value if 'sn' in entry else '',
+          mail=entry.mail.value if 'mail' in entry else '',
+          phone=entry.telephoneNumber.value if 'telephoneNumber' in entry else '',
+          department=entry.departmentNumber.value if 'departmentNumber' in entry else '',
+          groups=[]
+          )
+        
+        # Append the user dictionary to the users list
+        users.append(user)
+
+    # Return the list of users (JSON response in Flask)
+    return users
 
   def get_users(self):
       search_base = self.base_dn

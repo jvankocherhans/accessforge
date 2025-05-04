@@ -34,8 +34,7 @@ login_manager = LoginManager()
 login_manager.login_view = "users_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
 login_manager.init_app(app)
 
-# register blueprints here...
-
+# create and register blueprints here...
 user_blueprint = create_user_blueprint(ldapmanager_conn)
 search_blueprint = create_search_blueprint(ldapmanager_conn)
 
@@ -51,5 +50,4 @@ def load_user(user_id):
     return LdapLoginUser(username=user_id, access=access)
 
 if __name__ == '__main__':
-    ldapmanager_conn.get_users()
     app.run(host='0.0.0.0', port=5000, debug=True)

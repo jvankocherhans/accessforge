@@ -38,5 +38,13 @@ def create_search_blueprint(ldapmanager_conn):
     else:
       return render_template('search.html', is_admin=is_admin)
     
+  
+  @search_blueprint.route("/search/users", methods=["GET", "POST"])
+  @requires_access_level(ACCESS['user'])
+  def search_users():
+    users = ldapmanager_conn.search_users("thier")  # Get the list of LdapUser objects
+    return [item.to_dict() for item in users]
+    
+    
   return search_blueprint
     
