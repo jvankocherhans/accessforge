@@ -6,15 +6,19 @@ objectClass: posixAccount
 objectClass: shadowAccount
 cn: Jvan Kocherhans
 sn: Kocherhans
+givenName: Jvan
 uid: j.kocherhans
 uidNumber: 10000
 gidNumber: 10000
 homeDirectory: /home/j.kocherhans
 loginShell: /bin/bash
-userPassword: {{ LDAP_READONLY_USER_PASSWORD_ENCRYPTED }}
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
 shadowLastChange: 0
 shadowMax: 0
 shadowWarning: 0
+mail: j.kocherhans@castle.com
+telephoneNumber: +41 79 123 45 67
+departmentNumber: IT
 
 # Thierry Wittmer anlegen
 dn: uid=t.wittmer,ou=users,{{ LDAP_BASE_DN }}
@@ -24,12 +28,16 @@ objectClass: posixAccount
 objectClass: shadowAccount
 cn: Thierry Wittmer
 sn: Wittmer
+givenName: Thierry
 uid: t.wittmer
 uidNumber: 10001
 gidNumber: 10000
 homeDirectory: /home/t.wittmer
 loginShell: /bin/bash
-userPassword: {{ LDAP_READONLY_USER_PASSWORD_ENCRYPTED }}
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
 shadowLastChange: 0
 shadowMax: 0
 shadowWarning: 0
+mail: t.wittmer@castle.com
+telephoneNumber: +41 78 987 65 43
+departmentNumber: IT

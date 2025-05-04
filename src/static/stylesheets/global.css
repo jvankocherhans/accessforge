@@ -86,3 +86,63 @@ body {
     padding: 0 var(--space-md);
   }
 }
+
+
+/* Container für die Nachricht */
+.alert-container {
+  position: fixed; /* Fixiert die Nachricht oben auf der Seite */
+  top: -50px; /* Startet über dem sichtbaren Bereich */
+  left: 50%; /* Startet in der Mitte der Seite */
+  transform: translateX(-50%); /* Horizontal zentrieren */
+  z-index: 1050; /* Damit die Nachricht immer über anderem Inhalt liegt */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8d7da;
+  color: #721c24;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: slideInFromTop 0.5s ease-out forwards; /* Nur diese Animation */
+  width: auto;
+  max-width: 90%;
+  margin-bottom: 10px;
+}
+
+/* Style für den Close-Button */
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #721c24;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Slide-in Animation von oben */
+@keyframes slideInFromTop {
+  0% {
+    top: -50px; /* Startet über dem Bildschirm */
+    opacity: 0; /* Startet unsichtbar */
+  }
+  100% {
+    top: 15px; /* Endet leicht unter dem oberen Rand */
+    opacity: 1; /* Wird sichtbar */
+  }
+}
+
+/* Wenn die Nachricht geschlossen wurde, bleibt sie versteckt */
+.alert-container.hidden {
+  display: none;
+}
+
+/* Für den Inhalt der Nachricht */
+.alert-content {
+  padding-right: 40px; /* Platz für den Close-Button */
+}

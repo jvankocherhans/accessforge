@@ -9,13 +9,19 @@ services:
       - LDAP_DOMAIN=${LDAP_DOMAIN}
       - LDAP_BASE_DN=${LDAP_BASE_DN}
       - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
-      - LDAP_READONLY_USER_PASSWORD=${LDAP_USER_PASSWORD}
+      - LDAP_READONLY_USER_PASSWORD_ENCRYPTED=${LDAP_USER_PASSWORD}
     ports:
       - "389:389"
       - "636:636"
     volumes:
       - ./ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
-    command: --copy-service 
+    command: --copy-service
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "389"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
@@ -68,3 +74,5 @@ services:
     depends_on:
       - ldap
       - mongo
+    env_file:
+      - .env
