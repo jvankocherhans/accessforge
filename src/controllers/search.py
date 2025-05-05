@@ -21,8 +21,6 @@ def create_search_blueprint(ldapmanager_conn):
     @search_blueprint.route("/search", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def search():
-        is_admin = current_user.is_admin()
-
         if request.method == "POST":
             search_type = request.form.get('search-type')
             search_input = request.form.get('search-input')
@@ -36,7 +34,7 @@ def create_search_blueprint(ldapmanager_conn):
                 return redirect(url_for('search_blueprint.search_users', searchinput=search_input))
             
         else:
-            return render_template('search.html', is_admin=is_admin)
+            return render_template('search.html', is_admin=current_user.is_admin())
 
     @search_blueprint.route("/search/users", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
@@ -45,7 +43,7 @@ def create_search_blueprint(ldapmanager_conn):
             session["user_cart"] = []
 
         # Get the search input from the query string (via GET request)
-        searchinput = request.args.get("searchinput", "")
+        searchinput = request.args.get("searchinput")
         
         if request.method == "POST":
             if "add_user" in request.form:
@@ -65,7 +63,8 @@ def create_search_blueprint(ldapmanager_conn):
             users=users,
             searchinput=searchinput,
             cart_names=[user["username"] for user in session["user_cart"]],
-            amount_users=len(session["user_cart"])
+            amount_users=len(session["user_cart"]),
+            is_admin=current_user.is_admin()
         )
 
     @search_blueprint.route("/search/groups", methods=["GET", "POST"])
@@ -75,7 +74,7 @@ def create_search_blueprint(ldapmanager_conn):
             session["cart"] = []
 
         # Get the search input from the query string (via GET request)
-        searchinput = request.args.get("searchinput", "")
+        searchinput = request.args.get("searchinput")
         
         if request.method == "POST":
             if "add_group" in request.form:
@@ -100,7 +99,8 @@ def create_search_blueprint(ldapmanager_conn):
             groups=groups,
             searchinput=searchinput,
             cart_names=[group["groupname"] for group in session["cart"]],
-            amount_groups=len(session["cart"])
+            amount_groups=len(session["cart"]),
+            is_admin=current_user.is_admin()
         )
 
         
@@ -116,6 +116,7 @@ def create_search_blueprint(ldapmanager_conn):
             form.groupnames.append_entry(group["groupname"])
 
         users = ldapmanager_conn.get_all_users()
+        
 
         return render_template('shopping_cart.html', form=form, groups=session["cart"], users=users)
 

@@ -14,6 +14,11 @@
     <strong>{{ user.username }}</strong>: {{ user.firstname }} {{ user.lastname }}<br>
     Email: {{ user.mail }}<br>
   </div>
-  <link><a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">View profil</link>
+  {% if is_admin %}
+  <form method="get" action="{{ url_for('user_blueprint.get_user') }}">
+    <input type="hidden" name="user" value="{{ user.username }}">
+    <button type="submit">User Info</button>
+  </form>
+  {% endif %}
 {% endfor %}
 {% endblock %}

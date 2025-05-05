@@ -149,23 +149,98 @@ body {
 
 
 
+/* Modal backdrop */
 .modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 1000;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(198, 198, 198, 0.5); /* More purple tint */
+  z-index: 9999;
 }
 
-.modal.hidden { display: none; }
+/* Hidden by default */
+.modal.hidden {
+  display: none;
+}
 
+/* Modal content box */
 .modal-content {
-  background: white;
+  background-color: var(--white, #fff);
+  border-radius: 16px;
   padding: 2rem;
-  border-radius: 8px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(123, 44, 191, 0.25);
   text-align: center;
+  animation: fadeIn 0.25s ease-out;
 }
 
-.modal-buttons button {
-  margin: 0 0.5rem;
+/* Modal title */
+#modal-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color, #7b2cbf);
+}
+
+/* Modal text */
+#modal-text {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark, #3d2a54);
+}
+
+/* Buttons wrapper */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Confirm and cancel buttons */
+.confirm-btn,
+.cancel-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border: none;
+}
+
+/* Confirm button in purple */
+.confirm-btn {
+  background-color: var(--primary-color, #7b2cbf);
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: var(--primary-dark, #5a189a);
+  transform: translateY(-1px);
+}
+
+/* Cancel button in soft lavender gray */
+.cancel-btn {
+  background-color: #ede2f5;
+  color: #5a189a;
+}
+
+.cancel-btn:hover {
+  background-color: #e0d0f0;
+  transform: translateY(-1px);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

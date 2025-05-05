@@ -23,16 +23,18 @@
       <input type="hidden" name="description" value="{{ group.description }}">
       <button type="submit" class="add-btn" {% if group.groupname in cart_names %}disabled{% endif %}>+</button>
     </form>
-    <!-- Gruppe löschen -->
-    <form method="post" 
-    action="{{ url_for('group_blueprint.delete_group') }}" 
-    class="confirm-form"
-    data-title="Delete this group?"
-    data-text="Do you really want to delete group '{{ group.groupname }}'?" 
-    style="display:inline">
-      <input type="hidden" name="group_name" value="{{ group.groupname }}">
-      <button type="submit" class="danger">🗑️ Löschen</button>
-    </form>
+    {% if is_admin %}
+      <!-- Gruppe löschen -->
+      <form method="post" 
+      action="{{ url_for('group_blueprint.delete_group') }}" 
+      class="confirm-form"
+      data-title="Delete this group?"
+      data-text="Do you really want to delete group '{{ group.groupname }}'?" 
+      style="display:inline">
+        <input type="hidden" name="group_name" value="{{ group.groupname }}">
+        <button type="submit" class="danger">🗑️ Löschen</button>
+      </form>
+    {% endif %}
   </div>
 {% endfor %}
 
