@@ -262,7 +262,7 @@ class LDAPManager():
             
     def cancel_group(self, username, group):
         # Format the group DN using the group name
-        group_dn = f"cn={group['groupname']},ou=groups,{self.base_dn}"
+        group_dn = f"cn={group},ou=groups,{self.base_dn}"
 
         try:
             # Use the correct attribute for the group (e.g., 'memberUid' for UNIX groups or 'member' for others)
@@ -273,7 +273,7 @@ class LDAPManager():
                     'memberUid': [(MODIFY_DELETE, [username])]
                 }
             )
-            print(f"User {username} removed from group with name {group['groupname']}")
+            print(f"User {username} removed from group with name {group}")
         except LDAPException as e:
             print(f"Error removing user from group: {e}")
             

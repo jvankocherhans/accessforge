@@ -13,8 +13,7 @@
   <div class="user">
     <strong>{{ user.username }}</strong>: {{ user.firstname }} {{ user.lastname }}<br>
     Email: {{ user.mail }}<br>
-    Phone: {{ user.phone }}<br>
-    Department: {{ user.department }}<br>
   </div>
+  <link><a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">View profil</link>
 {% endfor %}
 {% endblock %}
