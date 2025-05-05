@@ -29,7 +29,7 @@
       </div>
       {% endif %}
 
-      <form action="{{ url_for('users_blueprint.login') }}" method="POST" class="login-form">
+      <form action="{{ url_for('user_blueprint.login') }}" method="POST" class="login-form">
         <div class="input-group">
           <label for="username"><i class="fas fa-user"></i> Benutzername</label>
           {{ render_field(form.user_name, class_="form-control", value="") }}
@@ -45,7 +45,5 @@
       </form>
     </div>
   </div>
-
-  
 </body>
 </html>

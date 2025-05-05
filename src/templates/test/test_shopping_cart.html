@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart</title>
+</head>
+
+<body>
+  {% include "includes/_flashmsg.html" %}
+  {% from "includes/_formhelpers.html" import render_field %}
+
+  <h1>Shopping Cart</h1>
+
+  <!-- Groups in Cart -->
+  <div>
+    <h2>Selected Groups (Roles)</h2>
+    <ul>
+      {% for group in groups %}
+      <li>
+        {{ group.groupname }}
+        <form action="{{ url_for('action_blueprint.remove_group_from_cart') }}" method="POST" style="display:inline;">
+          <input type="hidden" name="remove_group" value="{{ group.groupname }}">
+          <button type="submit">Remove</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div>
+    <h2>Assign Users</h2>
+    <form id="bulkAssignForm" action="{{ url_for('action_blueprint.bulk_assign_users_to_groups') }}" method="POST">
+      {{ form.hidden_tag() }}
+
+      <!-- Search for users -->
+      <label for="userSearch">Search and select users:</label><br>
+      <input type="text" id="userSearch" placeholder="Type a name or username..." autocomplete="off">
+      <div class="autocomplete-results" id="autocompleteResults"></div>
+
+      <ul id="selectedUsersList">
+        <!-- Selected users will appear here -->
+      </ul>
+
+      <div id="hiddenInputs">
+        <!-- Hidden inputs for usernames will be added dynamically -->
+      </div>
+
+      <!-- Dynamically populated groupnames -->
+      {% for field in form.groupnames %}
+      {{ render_field(field, class_="form-control", value=field.data) }}
+      {% endfor %}
+
+      <!-- Submit button to assign users -->
+      <button id="submitButton" type="submit" class="btn" disabled>Assign Selected Users to All Groups</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='scripts/shopping-cart.js') }}"></script>
+</body>
+
+</html>
