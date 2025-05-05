@@ -4,3 +4,4 @@ objectClass: posixGroup
 cn: af admins
 gidNumber: 500
 memberUid: j.kocherhans
+description: Group for AccessForge Administrators.

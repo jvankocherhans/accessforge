@@ -41,3 +41,201 @@ shadowWarning: 0
 mail: t.wittmer@castle.com
 telephoneNumber: +41 78 987 65 43
 departmentNumber: IT
+
+# Alice Müller anlegen
+dn: uid=a.mueller,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Alice Müller
+sn: Müller
+givenName: Alice
+uid: a.mueller
+uidNumber: 10002
+gidNumber: 10000
+homeDirectory: /home/a.mueller
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: a.mueller@castle.com
+telephoneNumber: +41 79 111 22 33
+departmentNumber: IT
+
+# Benjamin Schmidt anlegen
+dn: uid=b.schmidt,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Benjamin Schmidt
+sn: Schmidt
+givenName: Benjamin
+uid: b.schmidt
+uidNumber: 10003
+gidNumber: 10000
+homeDirectory: /home/b.schmidt
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: b.schmidt@castle.com
+telephoneNumber: +41 78 444 55 66
+departmentNumber: IT
+
+# Charlotte Weber anlegen
+dn: uid=c.weber,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Charlotte Weber
+sn: Weber
+givenName: Charlotte
+uid: c.weber
+uidNumber: 10004
+gidNumber: 10000
+homeDirectory: /home/c.weber
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: c.weber@castle.com
+telephoneNumber: +41 79 333 44 55
+departmentNumber: IT
+
+# Daniel Fischer anlegen
+dn: uid=d.fischer,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Daniel Fischer
+sn: Fischer
+givenName: Daniel
+uid: d.fischer
+uidNumber: 10005
+gidNumber: 10000
+homeDirectory: /home/d.fischer
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: d.fischer@castle.com
+telephoneNumber: +41 78 555 66 77
+departmentNumber: IT
+
+# Eva Schneider anlegen
+dn: uid=e.schneider,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Eva Schneider
+sn: Schneider
+givenName: Eva
+uid: e.schneider
+uidNumber: 10006
+gidNumber: 10000
+homeDirectory: /home/e.schneider
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: e.schneider@castle.com
+telephoneNumber: +41 79 666 77 88
+departmentNumber: IT
+
+# Florian Braun anlegen
+dn: uid=f.braun,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Florian Braun
+sn: Braun
+givenName: Florian
+uid: f.braun
+uidNumber: 10007
+gidNumber: 10000
+homeDirectory: /home/f.braun
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: f.braun@castle.com
+telephoneNumber: +41 78 777 88 99
+departmentNumber: IT
+
+# Georg Keller anlegen
+dn: uid=g.keller,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Georg Keller
+sn: Keller
+givenName: Georg
+uid: g.keller
+uidNumber: 10008
+gidNumber: 10000
+homeDirectory: /home/g.keller
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: g.keller@castle.com
+telephoneNumber: +41 79 888 99 00
+departmentNumber: IT
+
+# Hannah Schmid anlegen
+dn: uid=h.schmid,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Hannah Schmid
+sn: Schmid
+givenName: Hannah
+uid: h.schmid
+uidNumber: 10009
+gidNumber: 10000
+homeDirectory: /home/h.schmid
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: h.schmid@castle.com
+telephoneNumber: +41 78 999 00 11
+departmentNumber: IT
+
+# Isabelle Zimmermann anlegen
+dn: uid=i.zimmermann,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Isabelle Zimmermann
+sn: Zimmermann
+givenName: Isabelle
+uid: i.zimmermann
+uidNumber: 10010
+gidNumber: 10000
+homeDirectory: /home/i.zimmermann
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: i.zimmermann@castle.com
+telephoneNumber: +41 79 222 33 44
+departmentNumber: IT

@@ -19,7 +19,7 @@ def create_user_blueprint(ldapmanager_conn):
 
     @user_blueprint.route("/login", methods=["GET", "POST"])
     def login():
-        # initiate the form..
+        
         form = LoginValidation()
 
         if request.method in ('POST') :
