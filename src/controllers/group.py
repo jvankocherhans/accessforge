@@ -33,9 +33,9 @@ def create_group_blueprint(ldapmanager_conn):
 
             flash(f'Successfully created group: {group_name}!')
 
-            return render_template('test/test_group_creation.html', form=form)
+            return render_template('new_object.html', form=form)
 
-        return render_template('test/test_group_creation.html', form=form)
+        return render_template('new_object.html', form=form)
 
     @group_blueprint.route("/delete-group", methods=["POST"])
     @requires_access_level(ACCESS['admin'])

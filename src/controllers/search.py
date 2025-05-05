@@ -61,7 +61,7 @@ def create_search_blueprint(ldapmanager_conn):
         users = ldapmanager_conn.search_users(searchinput)
 
         return render_template(
-            "test/test_list_users.html",
+            "listing/listing_user.html",
             users=users,
             searchinput=searchinput,
             cart_names=[user["username"] for user in session["user_cart"]],
@@ -96,7 +96,7 @@ def create_search_blueprint(ldapmanager_conn):
         groups = ldapmanager_conn.search_groups(searchinput)
 
         return render_template(
-            "test/test_list_groups.html",
+            "listing/listing_group.html",
             groups=groups,
             searchinput=searchinput,
             cart_names=[group["groupname"] for group in session["cart"]],
@@ -117,6 +117,6 @@ def create_search_blueprint(ldapmanager_conn):
 
         users = ldapmanager_conn.get_all_users()
 
-        return render_template('test/test_shopping_cart.html', form=form, groups=session["cart"], users=users)
+        return render_template('shopping_cart.html', form=form, groups=session["cart"], users=users)
 
     return search_blueprint
