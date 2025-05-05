@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session, redirect, url_for
+from flask import Blueprint, jsonify, request, session, redirect, url_for, flash
 from flask_login import current_user
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
@@ -36,6 +36,8 @@ def create_action_blueprint(ldapmanager_conn):
             for groupe in groupes:
                 ldapmanager_conn.add_user_to_group(username, groupe)   
 
+        flash(f"Successfully assigned to group!")
+        
         session["cart"] = []
         return redirect(url_for("search_blueprint.search_groups"))
 
