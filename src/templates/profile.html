@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
 </head>
 <body class="user-page">
+  {% from "includes/_confirm_modal.html" import confirm_modal %}
+  {{ confirm_modal() }}
+  {% include "includes/_flashmsg.html" %}
   <header class="user-header">
     <a href="{{ url_for('search_blueprint.search') }}">
       <img src="{{ url_for('static', filename='images/logo.png') }}" 
@@ -54,9 +57,18 @@
         {% for group in current_user.groups %}
         <div class="group-item">
           <span class="group-name">{{ group }}</span>
+          <form method="post" 
+            action="{{ url_for('group_blueprint.cancel_group') }}" 
+            class="confirm-form"
+            data-title="Remove this Group?"
+            data-text="Do you really want to remove this group {{ group }}?" 
+            style="display:inline">
+          <input type="hidden" name="group_name" value="{{ group }}">
+          <input type="hidden" name="user_name" value="{{ current_user.username }}">
           <button class="remove-group-btn" aria-label="Gruppe verlassen">
-            <i class="fas fa-minus-circle"></i>
-          </button>
+        <i class="fas fa-minus-circle"></i>
+      </button>
+    </form>    
         </div>
         {% endfor %}
       </div>
@@ -67,5 +79,6 @@
       </a>
     </div>
   </main>
+  <script src="{{ url_for('static', filename='scripts/confirm-modal.js') }}"></script>
 </body>
 </html>
