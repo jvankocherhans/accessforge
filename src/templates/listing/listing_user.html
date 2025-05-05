@@ -1,0 +1,20 @@
+{% extends "listing/listing_base.html" %}
+ 
+{% block title %}listing-user |Self-Service{% endblock %}
+  
+{% block content %}
+<h1>Search Users</h1>
+<form method="get" action="{{ url_for('search_blueprint.search_users') }}">
+  <input type="text" name="searchinput" value="{{ searchinput }}" placeholder="Enter user name or details" />
+  <button type="submit">Search</button>
+</form>
+
+{% for user in users %}
+  <div class="user">
+    <strong>{{ user.username }}</strong>: {{ user.firstname }} {{ user.lastname }}<br>
+    Email: {{ user.mail }}<br>
+    Phone: {{ user.phone }}<br>
+    Department: {{ user.department }}<br>
+  </div>
+{% endfor %}
+{% endblock %}
