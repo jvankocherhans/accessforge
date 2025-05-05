@@ -1,4 +1,4 @@
-from ldap3 import Server, Connection, ALL, SUBTREE, MODIFY_ADD
+from ldap3 import Server, Connection, ALL, SUBTREE, MODIFY_ADD, MODIFY_DELETE
 from ldap3.core.exceptions import LDAPException, LDAPBindError
 from model.ACCESS import *
 from model.models import *
@@ -120,7 +120,8 @@ class LDAPManager():
 
     def search_users(self, searchinput=""):
         if not searchinput:
-            search_filter = '(objectClass=inetOrgPerson)'  # Fetch all users if no input is given
+            # Fetch all users if no input is given
+            search_filter = '(objectClass=inetOrgPerson)'
         else:
             search_filter = f'(|(givenName=*{searchinput}*)(sn=*{searchinput}*)(uid=*{searchinput}*))'
 
@@ -128,7 +129,8 @@ class LDAPManager():
             search_base=f'ou=users,{self.base_dn}',
             search_filter=search_filter,
             search_scope=SUBTREE,
-            attributes=['givenName', 'sn', 'uid', 'mail', 'telephoneNumber', 'departmentNumber']
+            attributes=['givenName', 'sn', 'uid', 'mail',
+                        'telephoneNumber', 'departmentNumber']
         )
 
         users = []
@@ -146,17 +148,16 @@ class LDAPManager():
 
         return users
 
-
-
     def get_all_users(self):
         search_base = self.base_dn
         search_filter = '(objectClass=inetOrgPerson)'
-        attributes = ['cn', 'sn', 'mail', 'uid', 'telephoneNumber', 'departmentNumber', 'memberOf']
+        attributes = ['cn', 'sn', 'mail', 'uid',
+                      'telephoneNumber', 'departmentNumber', 'memberOf']
 
         self.connection.search(search_base,
-                            search_filter,
-                            search_scope=SUBTREE,
-                            attributes=attributes)
+                               search_filter,
+                               search_scope=SUBTREE,
+                               attributes=attributes)
 
         users = []
         for entry in self.connection.entries:
@@ -164,8 +165,10 @@ class LDAPManager():
             firstname = str(entry.cn.value) if entry.cn else None
             lastname = str(entry.sn.value) if entry.sn else None
             mail = str(entry.mail.value) if entry.mail else None
-            phone = str(entry.telephoneNumber.value) if entry.telephoneNumber else None
-            department = str(entry.departmentNumber.value) if entry.departmentNumber else None
+            phone = str(
+                entry.telephoneNumber.value) if entry.telephoneNumber else None
+            department = str(
+                entry.departmentNumber.value) if entry.departmentNumber else None
             groups = entry.memberOf.values if 'memberOf' in entry else []
 
             user = LdapUser(
@@ -181,9 +184,7 @@ class LDAPManager():
 
         return users
 
-
     def _get_next_gid_number(self, start_gid=1000):
-        # Search for all existing posixGroups to determine the next available gidNumber
         self.connection.search(
             search_base='ou=groups,' + self.base_dn,
             search_filter='(objectClass=posixGroup)',
@@ -200,10 +201,9 @@ class LDAPManager():
         next_gid = max(existing_gids, default=start_gid - 1) + 1
         return str(next_gid)
 
-            
     def create_group(self, group_name, group_description=""):
         group_dn = f"cn={group_name},ou=groups,{self.base_dn}"
-        
+
         attributes = {
             'objectClass': ['top', 'posixGroup'],
             'cn': group_name,
@@ -214,7 +214,8 @@ class LDAPManager():
         try:
             success = self.connection.add(dn=group_dn, attributes=attributes)
             if not success:
-                print(f"Failed to create group {group_name}: {self.connection.result}")
+                print(
+                    f"Failed to create group {group_name}: {self.connection.result}")
             else:
                 print(f"Group {group_name} created successfully.")
             return success
@@ -223,40 +224,67 @@ class LDAPManager():
             return False
 
     def search_groups(self, searchinput):
-        # If searchinput is None or empty, return all groups
         search_filter = '(objectClass=posixGroup)'  # Fetch all groups
 
         if searchinput:
-            # If searchinput is provided, search for matching groups by name or description
             search_filter = f'(|(cn=*{searchinput}*)(description=*{searchinput}*))'
 
         self.connection.search(
             search_base=f'ou=groups,{self.base_dn}',
             search_filter=search_filter,
             search_scope=SUBTREE,
-            attributes=['cn', 'description']
+            attributes=['gidNumber', 'cn', 'description']
         )
 
         groups = []
         for entry in self.connection.entries:
+            gidNumber = entry.gidNumber.value if 'gidNumber' in entry else ""
             groupname = entry.cn.value if 'cn' in entry else ""
             description = entry.description.value if 'description' in entry else ""
-            groups.append(Group(groupname=groupname, description=description))
+            groups.append(
+                Group(gid=gidNumber, groupname=groupname, description=description))
 
         return groups
 
+    def add_user_to_group(self, username, group):
+        group_dn = f"cn={group['groupname']},ou=groups,{self.base_dn}"
 
-    
-    def add_user_to_group(self, username, groupname):
-        group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
-        
         try:
-            # Use MODIFY_ADD directly from ldap3
             self.connection.modify(
                 group_dn,
-                {'memberUid': [(MODIFY_ADD, [username])]})  # Correct usage of MODIFY_ADD
-            print(f"User {username} added to group {groupname}")
+                {
+                    'memberUid': [(MODIFY_ADD, [username])]
+                }
+            )
+            print(f"User {username} added to group with name {group['groupname']}")
         except LDAPException as e:
             print(f"Error adding user to group: {e}")
+            
+    def cancel_group(self, username, group):
+        # Format the group DN using the group name
+        group_dn = f"cn={group['groupname']},ou=groups,{self.base_dn}"
 
+        try:
+            # Use the correct attribute for the group (e.g., 'memberUid' for UNIX groups or 'member' for others)
+            # Assuming 'memberUid' is the right attribute for this example
+            self.connection.modify(
+                group_dn,
+                {
+                    'memberUid': [(MODIFY_DELETE, [username])]
+                }
+            )
+            print(f"User {username} removed from group with name {group['groupname']}")
+        except LDAPException as e:
+            print(f"Error removing user from group: {e}")
+            
+    def delete_group(self, groupname):
+        # Format the group DN using the group name
+        group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
+
+        try:
+            # Delete the group completely
+            self.connection.delete(group_dn)
+            print(f"Group {groupname} has been deleted successfully.")
+        except LDAPException as e:
+            print(f"Error deleting group: {e}")
 

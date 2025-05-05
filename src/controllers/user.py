@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 from ldap3 import Server, Connection, ALL, SUBTREE
@@ -51,5 +51,15 @@ def create_user_blueprint(ldapmanager_conn):
     def logout():    
         logout_user()
         return redirect("/login")
+    
+    @user_blueprint.route("/users", methods=["GET"])
+    @requires_access_level(ACCESS['admin'])  # Or another access level, depending on your needs
+    def get_users():
+        # Fetch users from LDAP or database
+        users = ldapmanager_conn.get_all_users() 
+        return jsonify([{
+            'username': user.username,
+            'label': f"{user.firstname} {user.lastname} ({user.username})"
+        } for user in users])
 
     return user_blueprint

@@ -20,7 +20,6 @@ def create_group_blueprint(ldapmanager_conn):
   @group_blueprint.route("/create-group", methods=["GET", "POST"])
   @requires_access_level(ACCESS['admin'])
   def create_group():
-      # initiate the form..
       form = GroupCreation()
 
       if request.method in ('POST') :
