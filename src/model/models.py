@@ -22,14 +22,8 @@ class LdapUser():
         self.phone = phone
         self.department = department
         self.groups = groups
-        
-    def to_dict(self):
-      return {
-          "username": self.username,
-          "firstname": self.firstname,
-          "lastname": self.lastname,
-          "mail": self.mail,
-          "phone": self.phone,
-          "department": self.department,
-          "groups": self.groups,
-        }
+      
+class Group():
+    def __init__(self, groupname, description):
+        self.groupname = groupname
+        self.description = description

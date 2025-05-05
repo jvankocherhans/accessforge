@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <style>
+    .user-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      display: none; /* Hide by default */
+    }
+    .selected-users {
+      margin-top: 20px;
+    }
+  </style>
+  
+</head>
+<body>
+  <h1>Shopping Cart</h1>
+
+  <!-- Display groups in the cart -->
+  <div>
+    <h2>Selected Groups (Roles)</h2>
+    <ul>
+      {% for group in groups %}
+        <li>
+          {{ group.groupname }}
+          <form action="{{ url_for('api_blueprint.remove_group_from_cart') }}" method="POST" style="display:inline;">
+            <input type="hidden" name="remove_group" value="{{ group.groupname }}">
+            <button type="submit">Remove</button>
+          </form>
+          <input type="hidden" name="groupnames" value="{{ group.groupname }}" form="bulkAssignForm">
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- User search + checkbox selection -->
+  <div>
+    <h2>Select Users to Assign</h2>
+
+    <input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterUsers()">
+
+    <form id="bulkAssignForm" action="{{ url_for('api_blueprint.bulk_assign_users_to_groups') }}" method="POST">
+      <div class="user-list" id="userList">
+        {% for user in users %}
+          <label>
+            <input type="checkbox" name="usernames" value="{{ user.username }}" onchange="updateSelectedList()">
+            {{ user.firstname }} {{ user.lastname }} ({{ user.username }})
+          </label><br>
+        {% endfor %}
+      </div>
+
+      <div class="selected-users">
+        <strong>Selected Users:</strong>
+        <ul id="selectedUsersList"></ul>
+      </div>
+
+      <br>
+      <button type="submit">Assign Selected Users to All Groups</button>
+    </form>
+  </div>
+
+  <script>
+    function filterUsers() {
+      const input = document.getElementById('userSearch').value.toLowerCase();
+      const labels = document.querySelectorAll('#userList label');
+      const userList = document.getElementById('userList');
+  
+      let anyVisible = false;
+  
+      labels.forEach(label => {
+        const text = label.textContent.toLowerCase();
+        const match = text.includes(input);
+        label.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+  
+      // Show list only if input is not empty and at least one match
+      userList.style.display = (input && anyVisible) ? 'block' : 'none';
+    }
+  
+    function updateSelectedList() {
+      const checkboxes = document.querySelectorAll('input[name="usernames"]:checked');
+      const list = document.getElementById('selectedUsersList');
+      list.innerHTML = '';
+  
+      checkboxes.forEach(cb => {
+        const li = document.createElement('li');
+        li.textContent = cb.parentElement.textContent.trim();
+        list.appendChild(li);
+      });
+    }
+  </script>
+  
+</body>
+</html>
