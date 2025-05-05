@@ -24,6 +24,7 @@ class LdapUser():
         self.groups = groups
       
 class Group():
-    def __init__(self, groupname, description):
+    def __init__(self, gid, groupname, description):
+        self.gid = gid
         self.groupname = groupname
         self.description = description

@@ -10,8 +10,7 @@ from model.ACCESS import ACCESS
 from controllers.user import create_user_blueprint
 from controllers.search import create_search_blueprint
 from controllers.group import create_group_blueprint
-from controllers.api import create_api_blueprint
-from controllers.test import test_blueprint
+from controllers.action import create_action_blueprint
 
 from flask import Flask
 from helper import get_env_variable
@@ -33,19 +32,19 @@ app.config['WTF_CSRF_ENABLED'] = False
 app.secret_key = "my_secret_key"
 
 login_manager = LoginManager()
-login_manager.login_view = "users_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
+login_manager.login_view = "user_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
 login_manager.init_app(app)
 
 # create and register blueprints here...
 user_blueprint = create_user_blueprint(ldapmanager_conn)
 search_blueprint = create_search_blueprint(ldapmanager_conn)
 group_blueprint = create_group_blueprint(ldapmanager_conn)
-api_blueprint = create_api_blueprint(ldapmanager_conn)
+action_blueprint = create_action_blueprint(ldapmanager_conn)
 
 app.register_blueprint(user_blueprint)
 app.register_blueprint(search_blueprint)
 app.register_blueprint(group_blueprint)
-app.register_blueprint(api_blueprint)
+app.register_blueprint(action_blueprint)
 
 @login_manager.user_loader
 def load_user(user_id):

@@ -13,29 +13,50 @@ from itsdangerous import URLSafeTimedSerializer
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
 
+
 def create_group_blueprint(ldapmanager_conn):
-  group_blueprint = Blueprint('group_blueprint', __name__)
-  
-  
-  @group_blueprint.route("/create-group", methods=["GET", "POST"])
-  @requires_access_level(ACCESS['admin'])
-  def create_group():
-      # initiate the form..
-      form = GroupCreation()
+    group_blueprint = Blueprint('group_blueprint', __name__)
 
-      if request.method in ('POST') :
-          group_name = form.group_name.data
-          group_description = form.group_description.data
-          
-          print(group_name)
-          print(group_description)
+    @group_blueprint.route("/create-group", methods=["GET", "POST"])
+    @requires_access_level(ACCESS['admin'])
+    def create_group():
+        form = GroupCreation()
 
-          print(ldapmanager_conn.create_group(group_name, group_description))
-          
-          flash(f'Successfully created group: {group_name}!')
-          
-          return render_template('test/test_group_creation.html', form=form)
-          
-      return render_template('test/test_group_creation.html', form=form)
-  
-  return group_blueprint
+        if request.method in ('POST'):
+            group_name = form.group_name.data
+            group_description = form.group_description.data
+
+            print(group_name)
+            print(group_description)
+
+            print(ldapmanager_conn.create_group(group_name, group_description))
+
+            flash(f'Successfully created group: {group_name}!')
+
+            return render_template('test/test_group_creation.html', form=form)
+
+        return render_template('test/test_group_creation.html', form=form)
+
+    @group_blueprint.route("/delete-group", methods=["POST"])
+    @requires_access_level(ACCESS['admin'])
+    def delete_group():
+        groupe_name = request.form.get('group_name')
+
+        ldapmanager_conn.delete_group(groupe_name)
+        flash(f"{groupe_name} has been successfully deleted.")
+
+        return redirect(url_for("search_blueprint.search_groups"))
+
+    @group_blueprint.route("/cancel-group", methods=["POST"])
+    @requires_access_level(ACCESS['user'])
+    def cancel_group():
+        user_name = request.form.get('user_name')
+        groupe_name = request.form.get('group_name')
+
+        ldapmanager_conn.cancel_group(user_name, groupe_name)
+
+        flash(f"{groupe_name} has been removed from user {user_name}.")
+
+        return redirect(request.referrer)
+
+    return group_blueprint

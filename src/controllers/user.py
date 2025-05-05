@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 from ldap3 import Server, Connection, ALL, SUBTREE
@@ -10,14 +10,15 @@ from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
 from itsdangerous import URLSafeTimedSerializer
 
-from controllers.decorator import requires_access_level
+from controllers.decorator import requires_access_level, login_access
 from model.ACCESS import ACCESS
 
 def create_user_blueprint(ldapmanager_conn):
 
-    user_blueprint = Blueprint('users_blueprint', __name__)
+    user_blueprint = Blueprint('user_blueprint', __name__)
 
     @user_blueprint.route("/login", methods=["GET", "POST"])
+    @login_access()
     def login():
         
         form = LoginValidation()
@@ -50,6 +51,17 @@ def create_user_blueprint(ldapmanager_conn):
     @requires_access_level(ACCESS['user'])
     def logout():    
         logout_user()
+        session.clear() 
         return redirect("/login")
+    
+    @user_blueprint.route("/users", methods=["GET"])
+    @requires_access_level(ACCESS['admin'])  # Or another access level, depending on your needs
+    def get_users():
+        # Fetch users from LDAP or database
+        users = ldapmanager_conn.get_all_users() 
+        return jsonify([{
+            'username': user.username,
+            'label': f"{user.firstname} {user.lastname} ({user.username})"
+        } for user in users])
 
     return user_blueprint
