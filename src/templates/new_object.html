@@ -1,10 +1,62 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Users/Groups | Self-Service Portal</title>
+  <title>New Group | Self-Service Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/new_object.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
 </head>
+
+<body>
+
+
+  {% include "includes/_flashmsg.html" %}
+
+
+  {% from "includes/_formhelpers.html" import render_field %}
+
+  <form action="{{ url_for('group_blueprint.create_group') }}" method="POST" class="create-group-form">
+
+    <div class="input-group">
+
+
+      {{ render_field(form.group_name, class_="form-control", value="") }}
+
+
+    </div>
+
+
+    <div class="input-group">
+
+
+      {{ render_field(form.group_description , class_="form-control", value="") }}
+
+
+    </div>
+
+
+
+
+
+    <button type="submit" class="btn-create">
+
+
+      <i class="fas fa-sign-in-alt"></i> Create Group
+
+
+    </button>
+
+
+  </form>
+
+
+
+
+
+</body>
+
+</html>
