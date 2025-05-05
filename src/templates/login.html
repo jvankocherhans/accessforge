@@ -22,25 +22,25 @@
 
       {% if error_message %}
       <div class="alert-danger" role="alert">
-        <h4 class="alert-heading">Authentifizierung fehlgeschlagen</h4>
-        <p>Die Anmeldung konnte nicht verifiziert werden.</p>
+        <h4 class="alert-heading">Authentication failed</h4>
+        <p>The login could not be verified.</p>
         <hr>
-        <p class="mb-0">Fehler: {{ error_message }}</p>
+        <p class="mb-0">Error: {{ error_message }}</p>
       </div>
       {% endif %}
 
       <form action="{{ url_for('user_blueprint.login') }}" method="POST" class="login-form">
         <div class="input-group">
-          <label for="username"><i class="fas fa-user"></i> Benutzername</label>
+          <label for="username"><i class="fas fa-user"></i> Username</label>
           {{ render_field(form.user_name, class_="form-control", value="") }}
         </div>
         <div class="input-group">
-          <label for="password"><i class="fas fa-lock"></i> Passwort</label>
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
           {{ render_field(form.user_password , class_="form-control", value="") }}
         </div>
 
         <button type="submit" class="btn-login">
-          <i class="fas fa-sign-in-alt"></i> Anmelden
+          <i class="fas fa-sign-in-alt"></i> Logon
         </button>
       </form>
     </div>
