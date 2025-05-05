@@ -1,7 +1,16 @@
 {% extends "listing/listing_base.html" %}
- 
-          {% block title %}listing-user |Self-Service{% endblock %}
-           
-          {% block content %}
-          <p>Dies ist die Startseite!</p>
-          {% endblock %}
+
+{% block title %}Benutzerliste | Self-Service{% endblock %}
+
+{% block content %}
+<div class="user-list">
+  {% for user in users %}
+  <a href="xx.html" class="list-item">
+    <div class="item-content">
+      <i class="fas fa-user item-icon"></i>
+      <span>{{ user.firstname }} {{ user.lastname }}</span>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

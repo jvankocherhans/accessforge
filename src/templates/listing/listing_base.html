@@ -3,29 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> {% block title %}listing |Self-Service{% endblock %}</title>
+  <title>{% block title %}Listing | Self-Service{% endblock %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing_base.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing_base.css') }}">
 </head>
-<body class="user-page">
-    <header class="user-header">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" 
-           alt="Accessforge-Logo" 
-           class="small-logo"
-           title="Accessforge-Logo">
-    </header>
-<div>
-      {% block content %}
-          
-      
-      {% endblock %}
-          
-</div>
-<div class="logout-container">
-    <a href="xx.html" class="logout-link">
-      <i class="fas fa-sign-out-alt"></i> Abmelden
+<body class="listing-page">
+  <header class="listing-header">
+    <div class="header-left">
+      {% if is_admin %}
+      <a href="xx.html" class="icon-button">
+        <i class="fas fa-plus"></i>
+      </a>
+      {% endif %}
+    </div>
+
+    <div class="header-center">
+      <form class="search-container" action="xx.html" method="GET">
+          <input type="text" 
+         placeholder="Search..." 
+          class="search-input"
+          aria-label="Enter search term"
+          name="search-input">
+        <button type="submit" class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="header-right">
+      <a href="{{ url_for('users_blueprint.profile') }}" class="icon-button">
+        <i class="fas fa-user"></i>
+      </a>
+      {% block extra_icon %}{% endblock %}
+    </div>
+  </header>
+
+  <main class="listing-content">
+    {% block content %}
+
+    {% endblock %}
+  </main>
+
+  <div class="logout-container">
+    <a href="{{ url_for('users_blueprint.logout') }}" class="logout-link">
+      <i class="fas fa-sign-out-alt"></i> Logout
     </a>
   </div>
 </body>

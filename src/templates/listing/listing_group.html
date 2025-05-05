@@ -1,7 +1,25 @@
 {% extends "listing/listing_base.html" %}
- 
-          {% block title %}listing-group |Self-Service{% endblock %}
-           
-          {% block content %}
-          <p>Dies ist die Startseite!</p>
-          {% endblock %}
+
+{% block title %}Gruppenliste | Self-Service{% endblock %}
+
+{% block extra_icon %}
+<a href="xx.html" class="icon-button">
+  <i class="fas fa-shopping-cart"></i>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="group-list">
+  {% for group in groups %}
+  <div class="list-item">
+    <div class="item-content">
+      <i class="fas fa-users item-icon"></i>
+      <span>{{ group.name }}</span>
+    </div>
+    <a href="xx.html" class="icon-button">
+      <i class="fas fa-plus"></i>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

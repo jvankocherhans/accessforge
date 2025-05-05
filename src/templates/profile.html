@@ -6,55 +6,66 @@
   <title>User-Profil | Self-Service Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/profile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
 </head>
 <body class="user-page">
   <header class="user-header">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" 
-         alt="Accessforge-Logo" 
-         class="small-logo"
-         title="Accessforge-Logo">
+    <a href="{{ url_for('search_blueprint.search') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" 
+           class="small-logo" 
+           alt="Accessforge-Logo"
+           title="Zur Suche zurückkehren">
+    </a>
   </header>
-
   <main class="user-content">
-    <i class="fas fa-user user-icon"></i>
-    
     <div class="info-card">
-      <div class="info-item">
-        <span class="info-label">Surename:</span>
-        <span class="info-value">{{ current_user.firstname }}</span>
+      <h2 class="section-title">
+        <i class="fas fa-user"></i>
+        User-Informationen
+      </h2>
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-label">Surname:</span>
+          <span class="info-value">{{ current_user.firstname }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Name:</span>
+          <span class="info-value">{{ current_user.lastname }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">E-Mail:</span>
+          <span class="info-value">{{ current_user.mail }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Telephon:</span>
+          <span class="info-value">{{ current_user.phone }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Department:</span>
+          <span class="info-value">{{ current_user.department }}</span>
+        </div>
       </div>
-      <div class="info-item">
-        <span class="info-label">Name:</span>
-        <span class="info-value">{{ current_user.lastname }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">E-Mail:</span>
-        <span class="info-value">{{ current_user.mail }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Phone-Number:</span>
-        <span class="info-value">{{ current_user.phone }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Department:</span>
-        <span class="info-value">{{ current_user.department }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">Group:</span>
-        <span class="info-value">
-          {% for group in current_user.groups %}
-            <div>{{ group }}</div>
-          {% endfor %}
-        </span>
+      <h2 class="section-title">
+        <i class="fas fa-users"></i>
+        Gruppen
+      </h2>
+      <div class="groups-section">
+        {% for group in current_user.groups %}
+        <div class="group-item">
+          <span class="group-name">{{ group }}</span>
+          <button class="remove-group-btn" aria-label="Gruppe verlassen">
+            <i class="fas fa-minus-circle"></i>
+          </button>
+        </div>
+        {% endfor %}
       </div>
     </div>
+    <div class="logout-container">
+      <a href="{{ url_for('users_blueprint.logout') }}" class="logout-link">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
   </main>
-
-  <div class="logout-container">
-    <a href="login.html" class="logout-link">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
-  </div>
 </body>
+</html>
