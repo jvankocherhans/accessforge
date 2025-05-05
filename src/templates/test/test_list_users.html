@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>User Search</title>
-  </style>
 </head>
 <body>
 {% include "includes/_flashmsg.html" %}
 {% from "includes/_formhelpers.html" import render_field %}
 
   <h1>Search Users</h1>
-  <form method="post" action="{{ url_for('search_blueprint.search_users') }}">
+  <form method="get" action="{{ url_for('search_blueprint.search_users') }}">
     <input type="text" name="searchinput" value="{{ searchinput }}" placeholder="Enter user name or details" />
     <button type="submit">Search</button>
   </form>

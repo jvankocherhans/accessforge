@@ -12,6 +12,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
+from forms.AssignUsersForm import AssignUsersForm
 
 
 def create_search_blueprint(ldapmanager_conn):
@@ -20,22 +21,20 @@ def create_search_blueprint(ldapmanager_conn):
     @search_blueprint.route("/search", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def search():
-
         is_admin = current_user.is_admin()
 
-        if request.method in ('POST'):
-
+        if request.method == "POST":
             search_type = request.form.get('search-type')
             search_input = request.form.get('search-input')
 
             print(search_input)
             print(search_type)
 
-            match(search_type):
-                case "group":
-                    return render_template('listing_group.html', is_admin=is_admin)
-                case "user":
-                    return render_template('listing_user.html', is_admin=is_admin)
+            if search_type == "group":
+                return redirect(url_for('search_blueprint.search_groups', searchinput=search_input))
+            elif search_type == "user":
+                return redirect(url_for('search_blueprint.search_users', searchinput=search_input))
+            
         else:
             return render_template('search.html', is_admin=is_admin)
 
@@ -45,6 +44,9 @@ def create_search_blueprint(ldapmanager_conn):
         if "user_cart" not in session:
             session["user_cart"] = []
 
+        # Get the search input from the query string (via GET request)
+        searchinput = request.args.get("searchinput", "")
+        
         if request.method == "POST":
             if "add_user" in request.form:
                 username = request.form["add_user"]
@@ -55,7 +57,7 @@ def create_search_blueprint(ldapmanager_conn):
                     })
                     session.modified = True
 
-        searchinput = request.form.get("searchinput", "")
+        # Perform the search with the provided search input
         users = ldapmanager_conn.search_users(searchinput)
 
         return render_template(
@@ -72,6 +74,9 @@ def create_search_blueprint(ldapmanager_conn):
         if "cart" not in session:
             session["cart"] = []
 
+        # Get the search input from the query string (via GET request)
+        searchinput = request.args.get("searchinput", "")
+        
         if request.method == "POST":
             if "add_group" in request.form:
                 gid = request.form["gid"]
@@ -87,12 +92,18 @@ def create_search_blueprint(ldapmanager_conn):
                     })
                     session.modified = True
 
-        searchinput = request.form.get("searchinput", "")
+        # Perform the search with the provided search input
         groups = ldapmanager_conn.search_groups(searchinput)
 
-        return render_template("test/test_list_groups.html", groups=groups, searchinput=searchinput, cart_names=[group["groupname"] for group in session["cart"]], amount_groups=len(session["cart"]))
+        return render_template(
+            "test/test_list_groups.html",
+            groups=groups,
+            searchinput=searchinput,
+            cart_names=[group["groupname"] for group in session["cart"]],
+            amount_groups=len(session["cart"])
+        )
 
-    from forms.AssignUsersForm import AssignUsersForm
+        
 
     @search_blueprint.route("/shopping-cart", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
