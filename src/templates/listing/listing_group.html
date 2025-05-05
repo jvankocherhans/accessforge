@@ -3,8 +3,10 @@
 {% block title %}Gruppenliste | Self-Service{% endblock %}
 
 {% block extra_icon %}
-<a href="xx.html" class="icon-button">
+<a href="{{ url_for('search_blueprint.shopping_cart') }}" class="icon-button">
   <i class="fas fa-shopping-cart"></i>
+  {{ amount_groups }} groups
+  </a>
 </a>
 {% endblock %}
 
