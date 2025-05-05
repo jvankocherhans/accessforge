@@ -10,7 +10,7 @@
   {% from "includes/_formhelpers.html" import render_field %}
   {% from "includes/_confirm_modal.html" import confirm_modal %}
 
-  {{ confirm_modal(modal_id="deleteModal", title="Delete Group?", text="Do you really want to delete this group?", confirm_label="Yes", cancel_label="No") }}
+  {{ confirm_modal() }}
 
   <a href="{{ url_for('search_blueprint.shopping_cart') }}" class="cart">
     🛒 {{ amount_groups }} groups
@@ -32,7 +32,12 @@
         <button type="submit" class="add-btn" {% if group.groupname in cart_names %}disabled{% endif %}>+</button>
       </form>
       <!-- Gruppe löschen -->
-      <form method="post" action="{{ url_for('group_blueprint.delete_group') }}" class="confirm-form" style="display:inline">
+      <form method="post" 
+      action="{{ url_for('group_blueprint.delete_group') }}" 
+      class="confirm-form"
+      data-title="Delete this group?"
+      data-text="Do you really want to delete group '{{ group.groupname }}'?" 
+      style="display:inline">
         <input type="hidden" name="group_name" value="{{ group.groupname }}">
         <button type="submit" class="danger">🗑️ Löschen</button>
       </form>
