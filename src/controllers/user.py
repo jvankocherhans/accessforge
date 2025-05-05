@@ -10,14 +10,15 @@ from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
 from itsdangerous import URLSafeTimedSerializer
 
-from controllers.decorator import requires_access_level
+from controllers.decorator import requires_access_level, login_access
 from model.ACCESS import ACCESS
 
 def create_user_blueprint(ldapmanager_conn):
 
-    user_blueprint = Blueprint('users_blueprint', __name__)
+    user_blueprint = Blueprint('user_blueprint', __name__)
 
     @user_blueprint.route("/login", methods=["GET", "POST"])
+    @login_access()
     def login():
         
         form = LoginValidation()
@@ -50,6 +51,7 @@ def create_user_blueprint(ldapmanager_conn):
     @requires_access_level(ACCESS['user'])
     def logout():    
         logout_user()
+        session.clear() 
         return redirect("/login")
     
     @user_blueprint.route("/users", methods=["GET"])

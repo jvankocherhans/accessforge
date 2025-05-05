@@ -32,7 +32,7 @@ app.config['WTF_CSRF_ENABLED'] = False
 app.secret_key = "my_secret_key"
 
 login_manager = LoginManager()
-login_manager.login_view = "users_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
+login_manager.login_view = "user_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
 login_manager.init_app(app)
 
 # create and register blueprints here...
