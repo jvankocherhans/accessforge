@@ -12,7 +12,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
-from model.models import UserActivityEnum
+from model.models import UserActivityEnum, FlashMsgType
 
 
 def create_group_blueprint(ldapmanager_conn, mongo_handler):
@@ -27,12 +27,9 @@ def create_group_blueprint(ldapmanager_conn, mongo_handler):
             group_name = form.group_name.data.strip()
             group_description = form.group_description.data.strip()
 
-            print(group_name)
-            print(group_description)
-
             ldapmanager_conn.create_group(group_name, group_description)
 
-            flash(f'Successfully created group: {group_name}!')
+            flash(f'Successfully created group: {group_name}!', FlashMsgType.SUCCESS.value)
 
             mongo_handler.create_activity(activity_enum=UserActivityEnum.CREATE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(group_name)})
             
@@ -48,7 +45,7 @@ def create_group_blueprint(ldapmanager_conn, mongo_handler):
         mongo_handler.create_activity(activity_enum=UserActivityEnum.DELETE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(groupe_name)})
 
         ldapmanager_conn.delete_group(groupe_name)
-        flash(f"{groupe_name} has been successfully deleted.")
+        flash(f"{groupe_name} has been deleted.", FlashMsgType.INFO.value)
 
         return redirect(url_for("search_blueprint.search_groups"))
 
@@ -62,7 +59,7 @@ def create_group_blueprint(ldapmanager_conn, mongo_handler):
 
         mongo_handler.create_activity(activity_enum=UserActivityEnum.CANCEL_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(groupe_name), "user": user_name})
 
-        flash(f"{groupe_name} has been removed from user {user_name}.")
+        flash(f"{groupe_name} has been removed from user {user_name}.", FlashMsgType.INFO.value)
 
         return redirect(request.referrer)
 

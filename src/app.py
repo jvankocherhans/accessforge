@@ -20,6 +20,8 @@ from mongohandler import MongoHandler
 
 from model.models import LdapLoginUser, LdapUser
 
+from controllers.decorator import requires_access_level
+
 app = Flask(__name__)
 
 ldap_server = get_env_variable("AF_LDAP_SERVER")
@@ -41,8 +43,13 @@ app.config['WTF_CSRF_ENABLED'] = False
 app.secret_key = "my_secret_key"
 
 login_manager = LoginManager()
-login_manager.login_view = "user_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
+login_manager.login_view = "user_blueprint.login" 
 login_manager.init_app(app)
+
+@app.route("/", methods=["GET"])
+@requires_access_level(ACCESS['user'])
+def index():
+    return redirect(url_for("search_blueprint.search")) 
 
 # create and register blueprints here...
 user_blueprint = create_user_blueprint(ldapmanager_conn, mongo_handler)

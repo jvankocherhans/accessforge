@@ -1,13 +1,14 @@
-from flask import Blueprint, jsonify, request, session, redirect, url_for, flash
+from flask import Blueprint, jsonify, request, session, redirect, url_for, flash, render_template
 from flask_login import current_user
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
-from model.models import UserActivityEnum
+from model.models import Activity, UserActivityEnum
+from forms.ActivityForm import ActivityFilterForm
+from datetime import datetime, timedelta
 
 def create_action_blueprint(ldapmanager_conn, mongo_handler):
     action_blueprint = Blueprint('action_blueprint', __name__)
 
-    # New API endpoint to remove a group from the cart
     @action_blueprint.route("/remove-group-from-cart", methods=["POST"])
     @requires_access_level(ACCESS['user'])
     def remove_group_from_cart():
@@ -17,10 +18,9 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
             # Remove the group from the cart by groupname
             cart = [group for group in cart if group["groupname"] != groupname_to_remove]
             session['cart'] = cart
-            
-            
+                        
             return redirect(url_for('search_blueprint.shopping_cart'))
-        
+
         return redirect(url_for('search_blueprint.shopping_cart'))
 
 
@@ -29,9 +29,6 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
     def bulk_assign_users_to_groups():
         usernames = request.form.getlist("usernames")
         groups = session["cart"]
-        
-        # Print for debugging purposes
-        print(f"Assigning users {usernames} to groups {groups}")
 
         for username in usernames:
             for group in groups:
@@ -44,6 +41,33 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
         mongo_handler.create_activity(activity_enum=UserActivityEnum.ASSIGN, initiator=current_user.id, details={"users": usernames, "groups":groups})
         
         return redirect(url_for("search_blueprint.search_groups"))
+    
+
+    @action_blueprint.route("/activity", methods=["GET", "POST"])
+    @requires_access_level(ACCESS['admin'])
+    def show_activity():
+        form = ActivityFilterForm()
+
+        activity_type = request.args.get('activity') or form.activity.data
+        initiator = request.args.get('initiator') or form.initiator.data
+        date_from = request.args.get('date_from') or form.date_from.data
+        date_to = request.args.get('date_to') or form.date_to.data
+
+        query = Activity.objects()
+
+        if activity_type:
+            query = query.filter(activity=activity_type)
+        if initiator:
+            query = query.filter(initiator__icontains=initiator)
+        if date_from:
+            query = query.filter(datetime__gte=datetime.strptime(date_from, "%Y-%m-%d"))
+        if date_to:
+            end_of_day = datetime.strptime(date_to, "%Y-%m-%d") + timedelta(days=1) - timedelta(seconds=1)
+            query = query.filter(datetime__lte=end_of_day)
+
+        query = query.order_by('-datetime')
+
+        return render_template("activity.html", activities=query, form=form)
 
 
     return action_blueprint

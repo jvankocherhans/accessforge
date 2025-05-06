@@ -4,6 +4,12 @@ from mongoengine import Document, StringField, DateTimeField, DictField
 from enum import Enum
 import datetime
 
+class FlashMsgType(Enum):
+    SUCCESS = "success"
+    ERROR = "error"
+    WARNING = "warning"
+    INFO = "info"
+
 class UserActivityEnum(Enum):
     LOGIN = "Login"
     LOGOUT = "Logout"

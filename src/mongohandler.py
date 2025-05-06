@@ -12,7 +12,6 @@ class MongoHandler:
         )
 
     def create_activity(self, activity_enum, initiator, details=None):
-        # Make sure activity_enum is one of the allowed values in UserActivityEnum
         if activity_enum.value not in [e.value for e in UserActivityEnum]:
             raise ValueError(f"Invalid activity name: {activity_enum.value}. Must be one of {', '.join([e.value for e in UserActivityEnum])}")
 

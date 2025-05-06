@@ -52,16 +52,13 @@ class LDAPManager():
     def authentication(self, login_user_name, login_user_pwd):
         user_dn = f'uid={login_user_name},ou=users,{self.base_dn}'
 
-        # Try binding with provided credentials
         user_connection = Connection(
             self.server, user=user_dn, password=login_user_pwd)
         if not user_connection.bind():
-            return None  # Failed authentication
+            return None 
 
-        # Re-bind as admin to search group membership
         self.__setup_connection()
 
-        # Setze einen Standardwert für access
         access = ACCESS["user"]
 
         self.connection.search(
@@ -197,7 +194,6 @@ class LDAPManager():
             if 'gidNumber' in entry:
                 existing_gids.append(int(entry.gidNumber.value))
 
-        # Find the next available gidNumber
         next_gid = max(existing_gids, default=start_gid - 1) + 1
         return str(next_gid)
 
@@ -259,7 +255,7 @@ class LDAPManager():
             return None
 
     def search_groups(self, searchinput):
-        search_filter = '(objectClass=posixGroup)'  # Fetch all groups
+        search_filter = '(objectClass=posixGroup)'
 
         if searchinput:
             search_filter = f'(|(cn=*{searchinput}*)(description=*{searchinput}*))'
@@ -301,8 +297,6 @@ class LDAPManager():
         group_dn = f"cn={group},ou=groups,{self.base_dn}"
 
         try:
-            # Use the correct attribute for the group (e.g., 'memberUid' for UNIX groups or 'member' for others)
-            # Assuming 'memberUid' is the right attribute for this example
             self.connection.modify(
                 group_dn,
                 {
@@ -314,11 +308,9 @@ class LDAPManager():
             print(f"Error removing user from group: {e}")
 
     def delete_group(self, groupname):
-        # Format the group DN using the group name
         group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
 
         try:
-            # Delete the group completely
             self.connection.delete(group_dn)
             print(f"Group {groupname} has been deleted successfully.")
         except LDAPException as e:

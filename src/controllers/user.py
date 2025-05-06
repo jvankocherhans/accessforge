@@ -10,7 +10,7 @@ from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
 from itsdangerous import URLSafeTimedSerializer
 
-from model.models import UserActivityEnum
+from model.models import UserActivityEnum, FlashMsgType
 
 from controllers.decorator import requires_access_level, login_access
 from model.ACCESS import ACCESS
@@ -41,8 +41,7 @@ def create_user_blueprint(ldapmanager_conn, mongo_handler):
                 return redirect('/search')
 
             else:
-                error_message = f"Authentication Failed"
-                return render_template("error.html", error_message=str(error_message))
+                flash("Authentication Failed", FlashMsgType.ERROR.value)
 
         return render_template('login.html', form=form)
     

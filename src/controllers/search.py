@@ -42,7 +42,6 @@ def create_search_blueprint(ldapmanager_conn, mongo_handler):
         if "user_cart" not in session:
             session["user_cart"] = []
 
-        # Get the search input from the query string (via GET request)
         searchinput = request.args.get("searchinput")
         
         if request.method == "POST":

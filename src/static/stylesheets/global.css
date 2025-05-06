@@ -85,13 +85,38 @@ body {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f8d7da;
-  color: #721c24;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   animation: slideInFromTop 0.5s ease-out forwards; /* Nur diese Animation */
   width: auto;
   max-width: 90%;
   margin-bottom: 10px;
+}
+
+/* Success (green) */
+.alert-container.success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.alert-container.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+
+/* Info (blue) */
+.alert-container.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border-color: #bee5eb;
+}
+
+/* Warning (yellow/orange) */
+.alert-container.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-color: #ffeeba;
 }
 
 /* Style für den Close-Button */
