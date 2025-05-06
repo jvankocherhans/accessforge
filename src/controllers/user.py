@@ -46,6 +46,12 @@ def create_user_blueprint(ldapmanager_conn):
     @requires_access_level(ACCESS['user'])
     def profile():
         return render_template('profile.html', current_user=ldapmanager_conn.get_user(current_user.id))
+    
+    @user_blueprint.route("/user-details", methods=["GET"])
+    @requires_access_level(ACCESS['admin'])
+    def get_user():
+        user = ldapmanager_conn.get_user(request.args.get("user"))
+        return render_template('profile.html', current_user=user)
 
     @user_blueprint.route("/logout", methods=["GET"])
     @requires_access_level(ACCESS['user'])
