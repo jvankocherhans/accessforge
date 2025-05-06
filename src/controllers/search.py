@@ -15,7 +15,7 @@ from model.ACCESS import ACCESS
 from forms.AssignUsersForm import AssignUsersForm
 
 
-def create_search_blueprint(ldapmanager_conn):
+def create_search_blueprint(ldapmanager_conn, mongo_handler):
     search_blueprint = Blueprint('search_blueprint', __name__)
 
     @search_blueprint.route("/search", methods=["GET", "POST"])
@@ -116,7 +116,6 @@ def create_search_blueprint(ldapmanager_conn):
             form.groupnames.append_entry(group["groupname"])
 
         users = ldapmanager_conn.get_all_users()
-        
 
         return render_template('shopping_cart.html', form=form, groups=session["cart"], users=users)
 

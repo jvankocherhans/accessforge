@@ -223,6 +223,41 @@ class LDAPManager():
             print(f"Error creating group {group_name}: {e}")
             return False
 
+    def get_group(self, group_name):
+        search_base = f'ou=groups,{self.base_dn}'
+        search_filter = f"(cn={group_name})"
+        attributes = ['cn', 'gidNumber', 'description']
+
+        try:
+            self.connection.search(
+                search_base=search_base,
+                search_filter=search_filter,
+                search_scope=SUBTREE,
+                attributes=attributes
+            )
+
+            if self.connection.entries:
+                entry = self.connection.entries[0]
+                print(f"Group {group_name} found:")
+                print(f"Distinguished Name (DN): {entry.entry_dn}")
+                print(f"Group Name: {entry.cn.value}")
+                print(
+                    f"GID Number: {entry.gidNumber.value if 'gidNumber' in entry else ''}")
+                print(
+                    f"Description: {entry.description.value if 'description' in entry else ''}")
+
+                return {
+                    "cn": entry.cn.value,
+                    "gidNumber": entry.gidNumber.value if 'gidNumber' in entry else '',
+                    "description": entry.description.value if 'description' in entry else ''
+                }
+            else:
+                print(f"Group {group_name} not found.")
+                return None
+        except LDAPException as e:
+            print(f"Error retrieving group {group_name}: {e}")
+            return None
+
     def search_groups(self, searchinput):
         search_filter = '(objectClass=posixGroup)'  # Fetch all groups
 
@@ -256,10 +291,11 @@ class LDAPManager():
                     'memberUid': [(MODIFY_ADD, [username])]
                 }
             )
-            print(f"User {username} added to group with name {group['groupname']}")
+            print(
+                f"User {username} added to group with name {group['groupname']}")
         except LDAPException as e:
             print(f"Error adding user to group: {e}")
-            
+
     def cancel_group(self, username, group):
         # Format the group DN using the group name
         group_dn = f"cn={group},ou=groups,{self.base_dn}"
@@ -276,7 +312,7 @@ class LDAPManager():
             print(f"User {username} removed from group with name {group}")
         except LDAPException as e:
             print(f"Error removing user from group: {e}")
-            
+
     def delete_group(self, groupname):
         # Format the group DN using the group name
         group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
@@ -287,4 +323,3 @@ class LDAPManager():
             print(f"Group {groupname} has been deleted successfully.")
         except LDAPException as e:
             print(f"Error deleting group: {e}")
-

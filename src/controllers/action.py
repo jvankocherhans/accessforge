@@ -2,8 +2,9 @@ from flask import Blueprint, jsonify, request, session, redirect, url_for, flash
 from flask_login import current_user
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
+from model.models import UserActivityEnum
 
-def create_action_blueprint(ldapmanager_conn):
+def create_action_blueprint(ldapmanager_conn, mongo_handler):
     action_blueprint = Blueprint('action_blueprint', __name__)
 
     # New API endpoint to remove a group from the cart
@@ -16,7 +17,8 @@ def create_action_blueprint(ldapmanager_conn):
             # Remove the group from the cart by groupname
             cart = [group for group in cart if group["groupname"] != groupname_to_remove]
             session['cart'] = cart
-
+            
+            
             return redirect(url_for('search_blueprint.shopping_cart'))
         
         return redirect(url_for('search_blueprint.shopping_cart'))
@@ -26,19 +28,21 @@ def create_action_blueprint(ldapmanager_conn):
     @requires_access_level(ACCESS['user'])
     def bulk_assign_users_to_groups():
         usernames = request.form.getlist("usernames")
-        groupes = session["cart"]
-        print(groupes)
+        groups = session["cart"]
         
         # Print for debugging purposes
-        print(f"Assigning users {usernames} to groups {groupes}")
+        print(f"Assigning users {usernames} to groups {groups}")
 
         for username in usernames:
-            for groupe in groupes:
-                ldapmanager_conn.add_user_to_group(username, groupe)   
+            for group in groups:
+                ldapmanager_conn.add_user_to_group(username, group)   
 
         flash(f"Successfully assigned to group!")
         
         session["cart"] = []
+        
+        mongo_handler.create_activity(activity_enum=UserActivityEnum.ASSIGN, initiator=current_user.id, details={"users": usernames, "groups":groups})
+        
         return redirect(url_for("search_blueprint.search_groups"))
 
 

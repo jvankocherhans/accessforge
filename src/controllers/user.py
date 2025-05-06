@@ -10,10 +10,12 @@ from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
 from itsdangerous import URLSafeTimedSerializer
 
+from model.models import UserActivityEnum
+
 from controllers.decorator import requires_access_level, login_access
 from model.ACCESS import ACCESS
 
-def create_user_blueprint(ldapmanager_conn):
+def create_user_blueprint(ldapmanager_conn, mongo_handler):
 
     user_blueprint = Blueprint('user_blueprint', __name__)
 
@@ -33,7 +35,9 @@ def create_user_blueprint(ldapmanager_conn):
             if ldap_user:
                 login_user(ldap_user)
                 session['access'] = ldap_user.access
-                success_message = f"Authentication Success "
+                
+                mongo_handler.create_activity(activity_enum=UserActivityEnum.LOGIN, initiator=ldap_user.id)
+                                
                 return redirect('/search')
 
             else:
@@ -56,12 +60,16 @@ def create_user_blueprint(ldapmanager_conn):
     @user_blueprint.route("/logout", methods=["GET"])
     @requires_access_level(ACCESS['user'])
     def logout():    
+        
+        mongo_handler.create_activity(activity_enum=UserActivityEnum.LOGOUT, initiator=current_user.id)
+        
         logout_user()
         session.clear() 
+            
         return redirect("/login")
     
     @user_blueprint.route("/users", methods=["GET"])
-    @requires_access_level(ACCESS['admin'])  # Or another access level, depending on your needs
+    @requires_access_level(ACCESS['user'])  # Or another access level, depending on your needs
     def get_users():
         # Fetch users from LDAP or database
         users = ldapmanager_conn.get_all_users() 

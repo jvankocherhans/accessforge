@@ -12,9 +12,10 @@ from itsdangerous import URLSafeTimedSerializer
 
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
+from model.models import UserActivityEnum
 
 
-def create_group_blueprint(ldapmanager_conn):
+def create_group_blueprint(ldapmanager_conn, mongo_handler):
     group_blueprint = Blueprint('group_blueprint', __name__)
 
     @group_blueprint.route("/create-group", methods=["GET", "POST"])
@@ -23,16 +24,18 @@ def create_group_blueprint(ldapmanager_conn):
         form = GroupCreation()
 
         if request.method in ('POST'):
-            group_name = form.group_name.data
-            group_description = form.group_description.data
+            group_name = form.group_name.data.strip()
+            group_description = form.group_description.data.strip()
 
             print(group_name)
             print(group_description)
 
-            print(ldapmanager_conn.create_group(group_name, group_description))
+            ldapmanager_conn.create_group(group_name, group_description)
 
             flash(f'Successfully created group: {group_name}!')
 
+            mongo_handler.create_activity(activity_enum=UserActivityEnum.CREATE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(group_name)})
+            
             return render_template('new_object.html', form=form)
 
         return render_template('new_object.html', form=form)
@@ -40,7 +43,9 @@ def create_group_blueprint(ldapmanager_conn):
     @group_blueprint.route("/delete-group", methods=["POST"])
     @requires_access_level(ACCESS['admin'])
     def delete_group():
-        groupe_name = request.form.get('group_name')
+        groupe_name = request.form.get('group_name').strip()
+
+        mongo_handler.create_activity(activity_enum=UserActivityEnum.DELETE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(groupe_name)})
 
         ldapmanager_conn.delete_group(groupe_name)
         flash(f"{groupe_name} has been successfully deleted.")
@@ -54,6 +59,8 @@ def create_group_blueprint(ldapmanager_conn):
         groupe_name = request.form.get('group_name')
 
         ldapmanager_conn.cancel_group(user_name, groupe_name)
+
+        mongo_handler.create_activity(activity_enum=UserActivityEnum.CANCEL_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(groupe_name), "user": user_name})
 
         flash(f"{groupe_name} has been removed from user {user_name}.")
 
