@@ -5,17 +5,32 @@
   align-items: center;
 }
 
+.header-left-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.header-right-container {
+  display: flex;
+  gap: 1rem;
+}
+
 .icon-button {
   color: var(--text-dark);
   font-size: 1.25rem;
   transition: all 0.3s ease;
   padding: 0.5rem;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .icon-button:hover {
   background-color: rgba(123, 44, 191, 0.1);
   color: var(--primary-dark);
+  text-decoration: none;
 }
 
 .main-content {
@@ -105,6 +120,7 @@
 
 .logout-link:hover {
   color: var(--primary-dark);
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

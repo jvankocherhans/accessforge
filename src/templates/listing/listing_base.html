@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing_base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing/listing_base.css') }}">
 </head>
 <body class="listing-page">
   {% include "includes/_flashmsg.html" %}
@@ -15,13 +15,22 @@
   {% from "includes/_confirm_modal.html" import confirm_modal %}
 
   {{ confirm_modal() }}
+  
   <header class="listing-header">
     <div class="header-left">
       {% if is_admin %}
-      <a href="xx.html" class="icon-button">
+      <a href="{{ url_for('group_blueprint.create_group') }}" class="icon-button">
         <i class="fas fa-plus"></i>
       </a>
       {% endif %}
+    </div>
+
+    <div class="header-center">
+      <div class="search-container">
+        {% block search_input %}
+        
+        {% endblock %}
+      </div>
     </div>
 
     <div class="header-right">
@@ -33,7 +42,6 @@
 
   <main class="listing-content">
     {% block content %}
-
     {% endblock %}
   </main>
 

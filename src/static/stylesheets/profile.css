@@ -90,15 +90,19 @@
   transform: scale(1.1);
 }
 
+.remove-group-btn i {
+  color: #dc3545;
+}
+
 .logout-container {
-  position: sticky;
-  bottom: var(--space-md);
-  align-self: flex-end;
-  margin-top: var(--space-lg);
-  background: var(#9d4edd);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: transparent;
   padding: var(--space-sm) var(--space-md);
   border-radius: 8px;
-  z-index: 10;
+  z-index: 1000;
+  box-shadow: none;
 }
 
 .logout-link {
@@ -132,5 +136,10 @@
 
   .section-title {
     font-size: 1.1rem;
+  }
+
+  .logout-container {
+    bottom: 10px;
+    right: 10px;
   }
 }

@@ -11,15 +11,18 @@
 </head>
 <body>
   <header class="header">
-    
-    {% if is_admin %}
-      <a href="{{ url_for('group_blueprint.create_group') }}"" class="icon-button">
-        <i class="fas fa-plus"></i>
+    <div class="header-left-container">
+      {% if is_admin %}
+        <a href="{{ url_for('group_blueprint.create_group') }}" class="icon-button">
+          <i class="fas fa-plus"></i>
+        </a>
+      {% endif %}
+    </div>
+    <div class="header-right-container">
+      <a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">
+        <i class="fas fa-user"></i>
       </a>
-    {% endif %}
-    <a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">
-      <i class="fas fa-user"></i>
-    </a>
+    </div>
   </header>
 
   <main class="main-content">
