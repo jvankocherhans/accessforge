@@ -1,41 +1,59 @@
 {% extends "listing/listing_base.html" %}
 
-{% block title %}Gruppenliste | Self-Service{% endblock %}
+{% block title %}Gruppen suchen | Self-Service{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing/listing_group.css') }}">
+{% block search_input %}
+  <form method="get" action="{{ url_for('search_blueprint.search_groups') }}">
+    <input type="text" 
+           name="searchinput" 
+           value="{{ searchinput }}" 
+           placeholder="Gruppen suchen..." 
+           class="search-input"
+           aria-label="Gruppensuche">
+    <button type="submit" class="search-button">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+{% endblock %}
 
 {% block content %}
+  <div class="group-listing-container">
+    <a href="{{ url_for('search_blueprint.shopping_cart') }}" class="cart-button">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count">{{ amount_groups }}</span>
+    </a>
 
-<a href="{{ url_for('search_blueprint.shopping_cart') }}" class="cart">
-  🛒 {{ amount_groups }} groups
-</a>
-
-<h1>Search Groups</h1>
-<form method="get" action="{{ url_for('search_blueprint.search_groups') }}">
-  <input type="text" name="searchinput" value="{{ searchinput }}" placeholder="Enter group name or description" />
-  <button type="submit">Search</button>
-</form>
-
-{% for group in groups %}
-  <div class="group">
-    <strong>{{ group.groupname }}</strong>: {{ group.description }}
-    <form method="post" style="display:inline">
-      <input type="hidden" name="gid" value="{{ group.gid }}">
-      <input type="hidden" name="add_group" value="{{ group.groupname }}">
-      <input type="hidden" name="description" value="{{ group.description }}">
-      <button type="submit" class="add-btn" {% if group.groupname in cart_names %}disabled{% endif %}>+</button>
-    </form>
-    {% if is_admin %}
-      <!-- Gruppe löschen -->
-      <form method="post" 
-      action="{{ url_for('group_blueprint.delete_group') }}" 
-      class="confirm-form"
-      data-title="Delete this group?"
-      data-text="Do you really want to delete group '{{ group.groupname }}'?" 
-      style="display:inline">
-        <input type="hidden" name="group_name" value="{{ group.groupname }}">
-        <button type="submit" class="danger">🗑️ Löschen</button>
-      </form>
-    {% endif %}
+    <div class="group-list">
+      {% for group in groups %}
+      <div class="group-card">
+        <div class="group-info">
+          <h3 class="group-name">{{ group.groupname }}</h3>
+          <p class="group-description">{{ group.description }}</p>
+        </div>
+        
+        <div class="group-actions">
+          <form method="post" class="inline-form">
+            <input type="hidden" name="gid" value="{{ group.gid }}">
+            <input type="hidden" name="add_group" value="{{ group.groupname }}">
+            <button type="submit" class="icon-button add-button{% if group.groupname in cart_names %} disabled{% endif %}" 
+                    aria-label="Zur Gruppe hinzufügen">
+              <i class="fas fa-plus-circle"></i>
+            </button>
+          </form>
+          
+          {% if is_admin %}
+          <form method="post" 
+                action="{{ url_for('group_blueprint.delete_group') }}" 
+                class="confirm-form inline-form">
+            <input type="hidden" name="group_name" value="{{ group.groupname }}">
+            <button type="submit" class="icon-button danger" aria-label="Gruppe löschen">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
-{% endfor %}
-
 {% endblock %}
