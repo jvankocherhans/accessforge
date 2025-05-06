@@ -91,7 +91,6 @@ def create_search_blueprint(ldapmanager_conn, mongo_handler):
                     })
                     session.modified = True
 
-        # Perform the search with the provided search input
         groups = ldapmanager_conn.search_groups(searchinput)
 
         return render_template(

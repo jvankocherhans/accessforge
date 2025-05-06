@@ -1,0 +1,307 @@
+/* LISTING BASE STYLES */
+.listing-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+
+/* EXAKTE SUCHLEISTE WIE IN SEARCH.HTML */
+.search-container {
+  background: var(--white);
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.search-input {
+  flex: 1;
+  border: none !important;
+  padding: 0.8rem;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.search-input:focus{
+  border: none !important;
+  outline: none !important;
+}
+
+.search-button {
+  background: var(--primary-color);
+  border: none;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background: var(--primary-dark);
+}
+
+/* LOGOUT-BUTTON UNTEN RECHTS */
+.logout-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.logout-link {
+  color: var(--text-light);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  transition: color 0.3s ease;
+}
+
+.logout-link:hover {
+  color: var(--primary-dark);
+}
+
+/* Common Container Styles */
+.container {
+  max-width: 900px;
+  margin: var(--space-lg) auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Search Form */
+.search-form {
+  display: flex;
+  gap: var(--space-sm);
+  flex-grow: 1;
+  position: relative;
+}
+
+.search-wrapper, .cart-wrapper {
+  flex: 1;
+}
+
+.search-form-width {
+  width: 100%;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100% !important;
+  padding: 10px 40px 10px 15px; /* Padding for input field */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
+
+.search-button {
+  position: absolute;
+  right: 10px; /* Position the button inside the input field */
+  top: 50%;
+  transform: translateY(-50%); /* Center the icon vertically */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.search-button i {
+  pointer-events: none; /* Ensure the icon doesn't interfere with clicks */
+}
+
+.search-button:hover {
+  background: none;
+}
+
+/* Cart Button */
+.cart-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-right: 15px;
+}
+
+.cart-button:hover {
+  background: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.cart-button i {
+  font-size: 1rem;
+}
+
+.cart-count {
+  background: var(--white);
+  color: var(--primary-dark);
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Group and User Cards */
+.card, .group-card, .user-card {
+  background: var(--white);
+  padding: var(--space-md);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover, .group-card:hover, .user-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-info, .group-info, .user-info {
+  flex-grow: 1;
+  margin-right: var(--space-md);
+}
+
+.card-name, .group-name, .user-name {
+  color: var(--primary-dark);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.card-description, .group-description, .user-details {
+  color: var(--text-light);
+  font-size: 0.9em;
+}
+
+.card-actions, .group-actions, .user-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+
+/* Layout Adjustments */
+.listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cart-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-md);
+}
+
+.listing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-2xl);
+  justify-items: center;
+}
+
+/* User & Group Cards */
+.card-content, .group-content, .user-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-details, .group-details, .user-details {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--text-light);
+  font-size: 0.9em;
+}
+
+.detail-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.info-button {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+}
+
+.info-button:hover {
+  color: var(--primary-dark);
+}
+
+.user-list, .group-list {
+  padding: 4.2em;
+  margin: 3em;
+}
+
+.user-card, .group-card {
+  margin: 15px;
+}
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+  .listing-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .search-form, .group-listing-container, .user-listing-container {
+    width: 100%;
+    padding: 0 var(--space-md);
+  }
+
+
+
+  .cart-button {
+    align-self: flex-end;
+  }
+
+  .group-card, .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .card-actions, .group-actions, .user-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

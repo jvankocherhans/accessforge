@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +15,23 @@
   {% include "includes/_flashmsg.html" %}
   {% from "includes/_formhelpers.html" import render_field %}
 
-  <header class="form-header">
-    <a href="{{ url_for('search_blueprint.search') }}" class="logo-link">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" 
-           class="form-logo" 
-           alt="Accessforge-Logo">
-    </a>
+
+  <header class="listing-header">
+    <div class="header-left">
+      <a href="{{ url_for('search_blueprint.search') }}" class="icon-button back-button"><i class="fas fa-arrow-left"></i></a>
+    </div>
+
+    <div class="header-center">
+      <a href="{{ url_for('search_blueprint.search') }}" class="logo-link">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="form-logo" alt="Accessforge-Logo">
+      </a>
+    </div>
+
+    <div class="header-right">
+      <a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
   </header>
 
   <div class="page-container">
@@ -44,4 +56,5 @@
     </a>
   </div>
 </body>
+
 </html>

@@ -9,7 +9,7 @@ body {
 /* Title and section headers */
 h1, h2 {
   color: var(--primary-color, #7b2cbf);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 /* List of selected groups */
@@ -38,6 +38,7 @@ li {
   font-size: 1.25rem;
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.25rem;
 }
 
 .remove-group-btn:hover {
@@ -48,7 +49,7 @@ li {
 /* Form section for assigning users */
 form#bulkAssignForm {
   background-color: var(--white, #fff);
-  padding: 2rem;
+  padding: 2rem 2rem 2.5rem;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   margin-top: 2rem;
@@ -57,27 +58,26 @@ form#bulkAssignForm {
 /* Input search field */
 #userSearch {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   font-size: 1rem;
 }
 
 /* Autocomplete dropdown */
 #autocompleteResults {
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
   background: white;
   border: 1px solid #ccc;
   border-radius: 8px;
-  margin-top: -0.5rem;
+  margin-top: -0.25rem;
   padding: 0.5rem;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
 }
-
 
 /* Selected users list */
 #selectedUsersList {
@@ -98,7 +98,7 @@ form#bulkAssignForm {
   display: inline-block;
   background-color: var(--primary-color, #7b2cbf);
   color: white;
-  padding: 0.85rem 1.5rem;
+  padding: 0.9rem 1.75rem;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
@@ -115,4 +115,8 @@ form#bulkAssignForm {
 #submitButton.btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.listing-header {
+  padding: 0px !important;
 }

@@ -49,13 +49,13 @@ def create_user_blueprint(ldapmanager_conn, mongo_handler):
     @user_blueprint.route("/profile", methods=["GET"])
     @requires_access_level(ACCESS['user'])
     def profile():
-        return render_template('profile.html', current_user=ldapmanager_conn.get_user(current_user.id))
+        return render_template('profile.html', current_user=ldapmanager_conn.get_user(current_user.id), origin_endpoint=request.endpoint)
     
     @user_blueprint.route("/user-details", methods=["GET"])
     @requires_access_level(ACCESS['admin'])
     def get_user():
         user = ldapmanager_conn.get_user(request.args.get("user"))
-        return render_template('profile.html', current_user=user)
+        return render_template('profile.html', current_user=user, origin_endpoint=request.endpoint)
 
     @user_blueprint.route("/logout", methods=["GET"])
     @requires_access_level(ACCESS['user'])
