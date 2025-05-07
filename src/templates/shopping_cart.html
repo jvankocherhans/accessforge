@@ -13,6 +13,20 @@
   {% include "includes/_flashmsg.html" %}
   {% from "includes/_formhelpers.html" import render_field %}
 
+  <header class="listing-header">
+    <div class="header-left">
+    </div>
+
+    <div class="header-center">
+
+    </div>
+
+    <div class="header-right">
+      <a href="{{ url_for('search_blueprint.search_groups') }}" class="icon-button back-button"><i class="fa fa-times"></i></a>
+
+    </div>
+  </header>
+  <br>
   <h1>Shopping Cart 🛒</h1>
 
   <!-- Groups in Cart -->

@@ -1,18 +1,15 @@
 {% extends "listing/listing_base.html" %}
 
 {% block title %}Benutzer suchen | Self-Service{% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing/listing_group.css') }}">
+
 {% block search_input %}
-  <form method="get" action="{{ url_for('search_blueprint.search_users') }}">
-    <input type="text" 
-           name="searchinput" 
-           value="{{ searchinput }}" 
-           placeholder="Benutzer suchen..." 
-           class="search-input"
-           aria-label="Benutzersuche">
-    <button type="submit" class="search-button">
-      <i class="fas fa-search"></i>
-    </button>
+  <form class="search-form-width" method="get" action="{{ url_for('search_blueprint.search_users') }}">
+    <div class="search-wrapper">
+      <input type="text" class="search-input" name="searchinput" placeholder="Search..." />
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i> <!-- Search icon -->
+      </button>
+    </div>
   </form>
 {% endblock %}
 
@@ -34,7 +31,6 @@
             </div>
           </div>
         </div>
-        
         {% if is_admin %}
         <div class="user-actions">
           <form method="get" action="{{ url_for('user_blueprint.get_user') }}">

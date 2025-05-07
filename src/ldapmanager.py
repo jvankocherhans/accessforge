@@ -52,16 +52,13 @@ class LDAPManager():
     def authentication(self, login_user_name, login_user_pwd):
         user_dn = f'uid={login_user_name},ou=users,{self.base_dn}'
 
-        # Try binding with provided credentials
         user_connection = Connection(
             self.server, user=user_dn, password=login_user_pwd)
         if not user_connection.bind():
-            return None  # Failed authentication
+            return None 
 
-        # Re-bind as admin to search group membership
         self.__setup_connection()
 
-        # Setze einen Standardwert für access
         access = ACCESS["user"]
 
         self.connection.search(
@@ -197,7 +194,6 @@ class LDAPManager():
             if 'gidNumber' in entry:
                 existing_gids.append(int(entry.gidNumber.value))
 
-        # Find the next available gidNumber
         next_gid = max(existing_gids, default=start_gid - 1) + 1
         return str(next_gid)
 
@@ -223,8 +219,43 @@ class LDAPManager():
             print(f"Error creating group {group_name}: {e}")
             return False
 
+    def get_group(self, group_name):
+        search_base = f'ou=groups,{self.base_dn}'
+        search_filter = f"(cn={group_name})"
+        attributes = ['cn', 'gidNumber', 'description']
+
+        try:
+            self.connection.search(
+                search_base=search_base,
+                search_filter=search_filter,
+                search_scope=SUBTREE,
+                attributes=attributes
+            )
+
+            if self.connection.entries:
+                entry = self.connection.entries[0]
+                print(f"Group {group_name} found:")
+                print(f"Distinguished Name (DN): {entry.entry_dn}")
+                print(f"Group Name: {entry.cn.value}")
+                print(
+                    f"GID Number: {entry.gidNumber.value if 'gidNumber' in entry else ''}")
+                print(
+                    f"Description: {entry.description.value if 'description' in entry else ''}")
+
+                return {
+                    "cn": entry.cn.value,
+                    "gidNumber": entry.gidNumber.value if 'gidNumber' in entry else '',
+                    "description": entry.description.value if 'description' in entry else ''
+                }
+            else:
+                print(f"Group {group_name} not found.")
+                return None
+        except LDAPException as e:
+            print(f"Error retrieving group {group_name}: {e}")
+            return None
+
     def search_groups(self, searchinput):
-        search_filter = '(objectClass=posixGroup)'  # Fetch all groups
+        search_filter = '(objectClass=posixGroup)'
 
         if searchinput:
             search_filter = f'(|(cn=*{searchinput}*)(description=*{searchinput}*))'
@@ -256,17 +287,16 @@ class LDAPManager():
                     'memberUid': [(MODIFY_ADD, [username])]
                 }
             )
-            print(f"User {username} added to group with name {group['groupname']}")
+            print(
+                f"User {username} added to group with name {group['groupname']}")
         except LDAPException as e:
             print(f"Error adding user to group: {e}")
-            
+
     def cancel_group(self, username, group):
         # Format the group DN using the group name
         group_dn = f"cn={group},ou=groups,{self.base_dn}"
 
         try:
-            # Use the correct attribute for the group (e.g., 'memberUid' for UNIX groups or 'member' for others)
-            # Assuming 'memberUid' is the right attribute for this example
             self.connection.modify(
                 group_dn,
                 {
@@ -276,15 +306,12 @@ class LDAPManager():
             print(f"User {username} removed from group with name {group}")
         except LDAPException as e:
             print(f"Error removing user from group: {e}")
-            
+
     def delete_group(self, groupname):
-        # Format the group DN using the group name
         group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
 
         try:
-            # Delete the group completely
             self.connection.delete(group_dn)
             print(f"Group {groupname} has been deleted successfully.")
         except LDAPException as e:
             print(f"Error deleting group: {e}")
-

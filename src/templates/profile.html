@@ -13,19 +13,37 @@
   {% from "includes/_confirm_modal.html" import confirm_modal %}
   {{ confirm_modal() }}
   {% include "includes/_flashmsg.html" %}
-  <header class="user-header">
-    <a href="{{ url_for('search_blueprint.search') }}">
+
+  <header class="listing-header">
+    <div class="header-left">
+        {% if request.endpoint == 'user_blueprint.profile' %}
+        <a href="{{ url_for('search_blueprint.search') }}" class="icon-button back-button">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+      {% else %}
+        <a href="{{ url_for('search_blueprint.search_users') }}" class="icon-button back-button">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="header-center">
       <img src="{{ url_for('static', filename='images/logo.png') }}" 
            class="small-logo" 
            alt="Accessforge-Logo"
            title="Zur Suche zurückkehren">
     </a>
+    </div>
+
+    <div class="header-right">
+    </div>
   </header>
+
   <main class="user-content">
     <div class="info-card">
       <h2 class="section-title">
         <i class="fas fa-user"></i>
-        User-Informationen
+        User-Information
       </h2>
       <div class="info-section">
         <div class="info-item">
@@ -51,7 +69,7 @@
       </div>
       <h2 class="section-title">
         <i class="fas fa-users"></i>
-        Gruppen
+        Groups / Roles
       </h2>
       <div class="groups-section">
         {% for group in current_user.groups %}

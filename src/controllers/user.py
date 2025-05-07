@@ -10,10 +10,12 @@ from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
 from itsdangerous import URLSafeTimedSerializer
 
+from model.models import UserActivityEnum, FlashMsgType
+
 from controllers.decorator import requires_access_level, login_access
 from model.ACCESS import ACCESS
 
-def create_user_blueprint(ldapmanager_conn):
+def create_user_blueprint(ldapmanager_conn, mongo_handler):
 
     user_blueprint = Blueprint('user_blueprint', __name__)
 
@@ -33,35 +35,40 @@ def create_user_blueprint(ldapmanager_conn):
             if ldap_user:
                 login_user(ldap_user)
                 session['access'] = ldap_user.access
-                success_message = f"Authentication Success "
+                
+                mongo_handler.create_activity(activity_enum=UserActivityEnum.LOGIN, initiator=ldap_user.id)
+                                
                 return redirect('/search')
 
             else:
-                error_message = f"Authentication Failed"
-                return render_template("error.html", error_message=str(error_message))
+                flash("Authentication Failed", FlashMsgType.ERROR.value)
 
         return render_template('login.html', form=form)
     
     @user_blueprint.route("/profile", methods=["GET"])
     @requires_access_level(ACCESS['user'])
     def profile():
-        return render_template('profile.html', current_user=ldapmanager_conn.get_user(current_user.id))
+        return render_template('profile.html', current_user=ldapmanager_conn.get_user(current_user.id), origin_endpoint=request.endpoint)
     
     @user_blueprint.route("/user-details", methods=["GET"])
     @requires_access_level(ACCESS['admin'])
     def get_user():
         user = ldapmanager_conn.get_user(request.args.get("user"))
-        return render_template('profile.html', current_user=user)
+        return render_template('profile.html', current_user=user, origin_endpoint=request.endpoint)
 
     @user_blueprint.route("/logout", methods=["GET"])
     @requires_access_level(ACCESS['user'])
     def logout():    
+        
+        mongo_handler.create_activity(activity_enum=UserActivityEnum.LOGOUT, initiator=current_user.id)
+        
         logout_user()
         session.clear() 
+            
         return redirect("/login")
     
     @user_blueprint.route("/users", methods=["GET"])
-    @requires_access_level(ACCESS['admin'])  # Or another access level, depending on your needs
+    @requires_access_level(ACCESS['user'])  # Or another access level, depending on your needs
     def get_users():
         # Fetch users from LDAP or database
         users = ldapmanager_conn.get_all_users() 

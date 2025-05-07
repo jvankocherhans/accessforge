@@ -68,19 +68,6 @@ body {
   box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.2);
 }
 
-.icon-button {
-  color: var(--text-dark);
-  font-size: 1.25rem;
-  padding: var(--space-sm);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.icon-button:hover {
-  background-color: rgba(123, 44, 191, 0.1);
-  color: var(--primary-dark);
-}
-
 @media (max-width: 768px) {
   body {
     padding: 0 var(--space-md);
@@ -98,13 +85,38 @@ body {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f8d7da;
-  color: #721c24;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   animation: slideInFromTop 0.5s ease-out forwards; /* Nur diese Animation */
   width: auto;
   max-width: 90%;
   margin-bottom: 10px;
+}
+
+/* Success (green) */
+.alert-container.success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.alert-container.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+
+/* Info (blue) */
+.alert-container.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border-color: #bee5eb;
+}
+
+/* Warning (yellow/orange) */
+.alert-container.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-color: #ffeeba;
 }
 
 /* Style für den Close-Button */
@@ -243,4 +255,70 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* HEADER MIT SUCHLEISTE */
+.listing-header {
+  padding: var(--space-md) var(--space-lg);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.header-left {
+  justify-self: start;
+}
+
+.header-center {
+  justify-self: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.header-right {
+  justify-self: end;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+.icon-button:hover {
+  color: var(--primary-dark);
+}
+
+.icon-button.danger {
+  color: var(--danger-color);
+}
+
+.icon-button.danger:hover {
+  color: var(--danger-dark);
+}
+
+.icon-button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

@@ -43,6 +43,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
+    ports:
+      - 27017:27017
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok"]
       interval: 5s
@@ -76,3 +78,18 @@ services:
       - mongo
     env_file:
       - .env
+
+  client:
+    build:
+      context: ./client
+    container_name: client
+    depends_on:
+      - accessforge
+    ports:
+      - "2222:22"
+    environment:
+      LDAP_URI: ldap://ldap:389
+      LDAP_BASE_DN: dc=castle,dc=com
+      LDAP_BIND_DN: cn=admin,dc=castle,dc=com
+      LDAP_BIND_PW: Adminadmin1
+      LDAP_ALLOWED_GROUP: sshusers

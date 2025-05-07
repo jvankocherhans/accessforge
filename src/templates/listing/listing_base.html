@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing/listing_base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/listing_base.css') }}">
 </head>
 <body class="listing-page">
   {% include "includes/_flashmsg.html" %}
@@ -18,11 +18,7 @@
   
   <header class="listing-header">
     <div class="header-left">
-      {% if is_admin %}
-      <a href="{{ url_for('group_blueprint.create_group') }}" class="icon-button">
-        <i class="fas fa-plus"></i>
-      </a>
-      {% endif %}
+      <a href="{{ url_for('search_blueprint.search') }}" class="icon-button back-button"><i class="fas fa-arrow-left"></i></a>
     </div>
 
     <div class="header-center">
@@ -34,9 +30,7 @@
     </div>
 
     <div class="header-right">
-      <a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">
-        <i class="fas fa-user"></i>
-      </a>
+
     </div>
   </header>
 
