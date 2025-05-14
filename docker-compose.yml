@@ -79,17 +79,3 @@ services:
     env_file:
       - .env
 
-  client:
-    build:
-      context: ./client
-    container_name: client
-    depends_on:
-      - accessforge
-    ports:
-      - "2222:22"
-    environment:
-      LDAP_URI: ldap://ldap:389
-      LDAP_BASE_DN: dc=castle,dc=com
-      LDAP_BIND_DN: cn=admin,dc=castle,dc=com
-      LDAP_BIND_PW: Adminadmin1
-      LDAP_ALLOWED_GROUP: sshusers
