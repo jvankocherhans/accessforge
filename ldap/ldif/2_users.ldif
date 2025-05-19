@@ -239,3 +239,25 @@ shadowWarning: 0
 mail: i.zimmermann@castle.com
 telephoneNumber: +41 79 222 33 44
 departmentNumber: IT
+
+# Christian Inauen anlegen
+dn: uid=c.inauen,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Christian Inauen
+sn: Inauen
+givenName: Christian
+uid: c.inauen
+uidNumber: 10011
+gidNumber: 10000
+homeDirectory: /home/c.inauen
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+mail: c.inauen@castle.com
+telephoneNumber: +41 79 333 44 55
+departmentNumber: IT

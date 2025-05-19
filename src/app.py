@@ -49,9 +49,12 @@ login_manager.init_app(app)
 @app.route("/", methods=["GET"])
 @requires_access_level(ACCESS['user'])
 def index():
+    """
+    redirecting root requests to /search
+    """
     return redirect(url_for("search_blueprint.search")) 
 
-# create and register blueprints here...
+# blueprints....
 user_blueprint = create_user_blueprint(ldapmanager_conn, mongo_handler)
 search_blueprint = create_search_blueprint(ldapmanager_conn, mongo_handler)
 group_blueprint = create_group_blueprint(ldapmanager_conn, mongo_handler)

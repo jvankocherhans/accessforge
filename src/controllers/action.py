@@ -7,11 +7,17 @@ from forms.ActivityForm import ActivityFilterForm
 from datetime import datetime, timedelta
 
 def create_action_blueprint(ldapmanager_conn, mongo_handler):
+    """
+    Blueprint for handling cart actions, bulk user-group assignments, and activity logs.
+    """
     action_blueprint = Blueprint('action_blueprint', __name__)
 
     @action_blueprint.route("/remove-group-from-cart", methods=["POST"])
     @requires_access_level(ACCESS['user'])
     def remove_group_from_cart():
+        """
+        Removes a group from the session cart by groupname.
+        """
         groupname_to_remove = request.form.get('remove_group')
         if groupname_to_remove:
             cart = session.get('cart', [])
@@ -27,6 +33,10 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
     @action_blueprint.route("/bulk-assign-users-to-groups", methods=["POST"])
     @requires_access_level(ACCESS['user'])
     def bulk_assign_users_to_groups():
+        """
+        Assigns selected users to all groups in the session cart.
+        Clears the cart and logs the action.
+        """
         usernames = request.form.getlist("usernames")
         groups = session["cart"]
 
@@ -46,6 +56,9 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
     @action_blueprint.route("/activity", methods=["GET", "POST"])
     @requires_access_level(ACCESS['admin'])
     def show_activity():
+        """
+        Displays a filtered list of user activities based on form inputs or URL parameters.
+        """
         form = ActivityFilterForm()
 
         activity_type = request.args.get('activity') or form.activity.data

@@ -16,6 +16,9 @@ from model.models import UserActivityEnum, FlashMsgType
 
 
 def create_group_blueprint(ldapmanager_conn, mongo_handler):
+    """
+    Creates a blueprint for group-related routes (create, delete, cancel membership).
+    """
     group_blueprint = Blueprint('group_blueprint', __name__)
 
     @group_blueprint.route("/create-group", methods=["GET", "POST"])
@@ -23,23 +26,37 @@ def create_group_blueprint(ldapmanager_conn, mongo_handler):
     def create_group():
         form = GroupCreation()
 
-        if request.method in ('POST'):
+        # Validate form on POST submission:
+        if form.validate_on_submit():
             group_name = form.group_name.data.strip()
             group_description = form.group_description.data.strip()
 
+            # Create the LDAP group with validated data
             ldapmanager_conn.create_group(group_name, group_description)
 
+            # Show success message to the user
             flash(f'Successfully created group: {group_name}!', FlashMsgType.SUCCESS.value)
 
-            mongo_handler.create_activity(activity_enum=UserActivityEnum.CREATE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(group_name)})
-            
-            return render_template('new_object.html', form=form)
+            # Log the creation activity in MongoDB
+            mongo_handler.create_activity(
+                activity_enum=UserActivityEnum.CREATE_GROUP, 
+                initiator=current_user.id, 
+                details={"group": ldapmanager_conn.get_group(group_name)}
+            )
 
+            # Redirect after successful POST to prevent form resubmission
+            return redirect(url_for('group_blueprint.create_group'))
+
+        # If GET request or form validation failed,
         return render_template('new_object.html', form=form)
+
 
     @group_blueprint.route("/delete-group", methods=["POST"])
     @requires_access_level(ACCESS['admin'])
     def delete_group():
+        """
+        Deletes the given group and logs the action.
+        """
         groupe_name = request.form.get('group_name').strip()
 
         mongo_handler.create_activity(activity_enum=UserActivityEnum.DELETE_GROUP, initiator=current_user.id, details={"group": ldapmanager_conn.get_group(groupe_name)})
@@ -52,6 +69,9 @@ def create_group_blueprint(ldapmanager_conn, mongo_handler):
     @group_blueprint.route("/cancel-group", methods=["POST"])
     @requires_access_level(ACCESS['user'])
     def cancel_group():
+        """
+        Removes a user from a group and logs the action.
+        """
         user_name = request.form.get('user_name')
         groupe_name = request.form.get('group_name')
 

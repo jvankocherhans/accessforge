@@ -22,6 +22,9 @@ class LDAPManager():
         self.__setup_connection()
 
     def __setup_connection(self):
+        """
+        Tries setting up a connection with the given ldap server. If at first not successful -> retry
+        """
         attempt = 0
         while attempt < self.max_retries:
             try:
@@ -50,6 +53,14 @@ class LDAPManager():
                     raise
 
     def authentication(self, login_user_name, login_user_pwd):
+        """
+        @param login_user_name: The username (uid) to authenticate.
+        @param login_user_pwd: The password of the user.
+
+        @return: LdapLoginUser object if authentication is successful, otherwise None.
+
+        Authenticates a user against the LDAP server and returns their access level.
+        """
         user_dn = f'uid={login_user_name},ou=users,{self.base_dn}'
 
         user_connection = Connection(
@@ -59,6 +70,7 @@ class LDAPManager():
 
         self.__setup_connection()
 
+        # Standard userrole
         access = ACCESS["user"]
 
         self.connection.search(
@@ -68,6 +80,7 @@ class LDAPManager():
             attributes=['cn']
         )
 
+        # check if user is administrator 
         for entry in self.connection.entries:
             group = entry.cn.value
             print(group)
@@ -78,6 +91,13 @@ class LDAPManager():
         return LdapLoginUser(username=login_user_name, access=access)
 
     def get_user(self, username):
+        """
+        @param username: The LDAP username (uid) of the user.
+
+        @return: LdapUser object containing user details and group memberships.
+
+        Fetches detailed information about a specific LDAP user.
+        """
         self.connection.search(
             search_base='ou=users,' + self.base_dn,
             search_filter=f'(uid={username})',
@@ -86,6 +106,7 @@ class LDAPManager():
                         'telephoneNumber', 'departmentNumber']
         )
 
+        # retrieves user values
         entry = self.connection.entries[0] if self.connection.entries else None
         firstname = entry.givenName.value if entry and 'givenName' in entry else ""
         lastname = entry.sn.value if entry and 'sn' in entry else ""
@@ -94,6 +115,7 @@ class LDAPManager():
         department = entry.departmentNumber.value if entry and 'departmentNumber' in entry else ""
         groups = []
 
+        # searches for groups user is member of
         self.connection.search(
             search_base='ou=groups,' + self.base_dn,
             search_filter=f'(memberUid={username})',
@@ -116,10 +138,18 @@ class LDAPManager():
         )
 
     def search_users(self, searchinput=""):
+        """
+        @param searchinput: Optional search string for name or uid. If empty, all users are returned.
+
+        @return: List of user dictionaries matching the search criteria.
+
+        Searches for users based on partial name or uid.
+        """
         if not searchinput:
             # Fetch all users if no input is given
             search_filter = '(objectClass=inetOrgPerson)'
         else:
+            # seraches in givenName, sn and uid
             search_filter = f'(|(givenName=*{searchinput}*)(sn=*{searchinput}*)(uid=*{searchinput}*))'
 
         self.connection.search(
@@ -146,6 +176,11 @@ class LDAPManager():
         return users
 
     def get_all_users(self):
+        """
+        @return: List of LdapUser objects for all users in the LDAP directory.
+
+        Retrieves all users with their attributes and group memberships.
+        """
         search_base = self.base_dn
         search_filter = '(objectClass=inetOrgPerson)'
         attributes = ['cn', 'sn', 'mail', 'uid',
@@ -182,6 +217,13 @@ class LDAPManager():
         return users
 
     def _get_next_gid_number(self, start_gid=1000):
+        """
+        @param start_gid: The starting GID to use if no groups are found.
+
+        @return: The next available GID number as a string.
+
+        Finds the next free gidNumber for a new group.
+        """
         self.connection.search(
             search_base='ou=groups,' + self.base_dn,
             search_filter='(objectClass=posixGroup)',
@@ -198,6 +240,14 @@ class LDAPManager():
         return str(next_gid)
 
     def create_group(self, group_name, group_description=""):
+        """
+        @param group_name: Name of the new group.
+        @param group_description: Optional description of the group.
+
+        @return: True if the group was created successfully, False otherwise.
+
+        Creates a new posixGroup in LDAP.
+        """
         group_dn = f"cn={group_name},ou=groups,{self.base_dn}"
 
         attributes = {
@@ -220,6 +270,13 @@ class LDAPManager():
             return False
 
     def get_group(self, group_name):
+        """
+        @param group_name: Name (cn) of the group.
+
+        @return: Dictionary with group attributes if found, None otherwise.
+
+        Retrieves information about a specific group from LDAP.
+        """
         search_base = f'ou=groups,{self.base_dn}'
         search_filter = f"(cn={group_name})"
         attributes = ['cn', 'gidNumber', 'description']
@@ -255,6 +312,13 @@ class LDAPManager():
             return None
 
     def search_groups(self, searchinput):
+        """
+        @param searchinput: Partial name or description to search for.
+
+        @return: List of Group objects matching the search.
+
+        Searches LDAP for groups matching the given input.
+        """
         search_filter = '(objectClass=posixGroup)'
 
         if searchinput:
@@ -278,6 +342,12 @@ class LDAPManager():
         return groups
 
     def add_user_to_group(self, username, group):
+        """
+        @param username: The username to add.
+        @param group: Dictionary with at least the 'groupname' key.
+
+        Adds a user to a specified group using memberUid.
+        """
         group_dn = f"cn={group['groupname']},ou=groups,{self.base_dn}"
 
         try:
@@ -293,6 +363,12 @@ class LDAPManager():
             print(f"Error adding user to group: {e}")
 
     def cancel_group(self, username, group):
+        """
+        @param username: The username to remove.
+        @param group: Name of the group (cn).
+
+        Removes a user from a group in LDAP.
+        """
         # Format the group DN using the group name
         group_dn = f"cn={group},ou=groups,{self.base_dn}"
 
@@ -308,6 +384,11 @@ class LDAPManager():
             print(f"Error removing user from group: {e}")
 
     def delete_group(self, groupname):
+        """
+        @param groupname: Name of the group (cn) to delete.
+
+        Deletes the specified group from LDAP.
+        """
         group_dn = f"cn={groupname},ou=groups,{self.base_dn}"
 
         try:

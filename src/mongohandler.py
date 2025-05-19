@@ -12,6 +12,17 @@ class MongoHandler:
         )
 
     def create_activity(self, activity_enum, initiator, details=None):
+        """
+        @param activity_enum
+        @param initiator
+        @param details
+        
+        @return activity
+        
+        Funktion erstellt basierend auf den Input Parametern eine Aktivität, welche in der MongoDB gespeichert wird.
+        """
+        
+        # Existiert Aktivitätstyp?
         if activity_enum.value not in [e.value for e in UserActivityEnum]:
             raise ValueError(f"Invalid activity name: {activity_enum.value}. Must be one of {', '.join([e.value for e in UserActivityEnum])}")
 
