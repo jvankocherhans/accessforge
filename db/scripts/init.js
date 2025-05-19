@@ -1,2 +1,2 @@
 db = db.getSiblingDB('accessforge');
-db.createCollection('orders');
+db.createCollection('activity');

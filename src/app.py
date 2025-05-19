@@ -16,8 +16,11 @@ from flask import Flask
 from helper import get_env_variable
 
 from ldapmanager import LDAPManager
+from mongohandler import MongoHandler
 
 from model.models import LdapLoginUser, LdapUser
+
+from controllers.decorator import requires_access_level
 
 app = Flask(__name__)
 
@@ -26,20 +29,36 @@ base_dn = get_env_variable("LDAP_BASE_DN")
 ldap_conn_user_name = get_env_variable("AF_CONN_USER")
 ldap_conn_password = get_env_variable("LDAP_ADMIN_PASSWORD")
 
+mongo_db_user = get_env_variable("MONGO_DB_USERNAME")
+mongo_db_password = get_env_variable("MONGO_DB_PASSWORD")
+mongo_db_database_name= get_env_variable("MONGO_DB_DATABASE_NAME")
+mongo_db_server = get_env_variable("MONGO_DB_SERVER")
+mongo_db_database_name= get_env_variable("MONGO_DB_DATABASE_NAME")
+
+
 ldapmanager_conn = LDAPManager(ldap_server, base_dn, ldap_conn_user_name, ldap_conn_password)
+mongo_handler = MongoHandler(username=mongo_db_user, password=mongo_db_password, server=mongo_db_server, dbname=mongo_db_database_name)
 
 app.config['WTF_CSRF_ENABLED'] = False
 app.secret_key = "my_secret_key"
 
 login_manager = LoginManager()
-login_manager.login_view = "user_blueprint.index"  # wo redirectet wird, wenn nicht eingeloggt
+login_manager.login_view = "user_blueprint.login" 
 login_manager.init_app(app)
 
-# create and register blueprints here...
-user_blueprint = create_user_blueprint(ldapmanager_conn)
-search_blueprint = create_search_blueprint(ldapmanager_conn)
-group_blueprint = create_group_blueprint(ldapmanager_conn)
-action_blueprint = create_action_blueprint(ldapmanager_conn)
+@app.route("/", methods=["GET"])
+@requires_access_level(ACCESS['user'])
+def index():
+    """
+    redirecting root requests to /search
+    """
+    return redirect(url_for("search_blueprint.search")) 
+
+# blueprints....
+user_blueprint = create_user_blueprint(ldapmanager_conn, mongo_handler)
+search_blueprint = create_search_blueprint(ldapmanager_conn, mongo_handler)
+group_blueprint = create_group_blueprint(ldapmanager_conn, mongo_handler)
+action_blueprint = create_action_blueprint(ldapmanager_conn, mongo_handler)
 
 app.register_blueprint(user_blueprint)
 app.register_blueprint(search_blueprint)

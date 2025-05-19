@@ -1,13 +1,13 @@
-{% with messages = get_flashed_messages(with_categories=false) %}
+{% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <div class="alert-container">
-      <div class="alert-content">
-        {% for message in messages %}
-          <div class="">{{ message }}</div>
-        {% endfor %}
+    {% for category, message in messages %}
+      <div class="alert-container {{ category }}">
+        <div class="alert-content">
+          {{ message }}
+        </div>
+        <button type="button" class="btn-close" aria-label="Close">&times;</button>
       </div>
-      <button type="button" class="btn-close" aria-label="Close">&times;</button>
-    </div>
+    {% endfor %}
   {% endif %}
 {% endwith %}
 

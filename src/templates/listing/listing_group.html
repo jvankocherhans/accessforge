@@ -1,27 +1,57 @@
 {% extends "listing/listing_base.html" %}
 
-{% block title %}Gruppenliste | Self-Service{% endblock %}
+{% block title %}Gruppen suchen | Self-Service{% endblock %}
 
-{% block extra_icon %}
-<a href="{{ url_for('search_blueprint.shopping_cart') }}" class="icon-button">
-  <i class="fas fa-shopping-cart"></i>
-  {{ amount_groups }} groups
-  </a>
-</a>
+{% block search_input %}
+<form class="search-form-width" method="get" action="{{ url_for('search_blueprint.search_groups') }}">
+  <div class="search-wrapper">
+    <input type="text" class="search-input" name="searchinput" placeholder="Search..." />
+    <button type="submit" class="search-button">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</form>
 {% endblock %}
 
 {% block content %}
+
 <div class="group-list">
-  {% for group in groups %}
-  <div class="list-item">
-    <div class="item-content">
-      <i class="fas fa-users item-icon"></i>
-      <span>{{ group.name }}</span>
+  <div class="group-listing-container">
+    <div class="cart-wrapper">
+      <a href="{{ url_for('search_blueprint.shopping_cart') }}" class="cart-button">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">{{ amount_groups }}</span>
+      </a>
     </div>
-    <a href="xx.html" class="icon-button">
-      <i class="fas fa-plus"></i>
-    </a>
+    {% for group in groups %}
+    <div class="group-card">
+      <div class="group-info">
+        <h3 class="group-name">{{ group.groupname }}</h3>
+        <p class="group-description">{{ group.description }}</p>
+      </div>
+
+      <div class="group-actions">
+        <form method="post" class="inline-form">
+          <input type="hidden" name="gid" value="{{ group.gid }}">
+          <input type="hidden" name="add_group" value="{{ group.groupname }}">
+          <input type="hidden" name="description" value="{{ group.description }}">
+          <button type="submit" class="icon-button add-button{% if group.groupname in cart_names %} disabled{% endif %}"
+            aria-label="Zur Gruppe hinzufügen">
+            <i class="fas fa-plus-circle"></i>
+          </button>
+        </form>
+
+        {% if is_admin %}
+        <form method="post" action="{{ url_for('group_blueprint.delete_group') }}" class="confirm-form inline-form">
+          <input type="hidden" name="group_name" value="{{ group.groupname }}">
+          <button type="submit" class="icon-button danger" aria-label="Gruppe löschen">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 {% endblock %}

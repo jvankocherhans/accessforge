@@ -5,3 +5,11 @@ cn: af admins
 gidNumber: 500
 memberUid: j.kocherhans
 description: Group for AccessForge Administrators.
+
+dn: cn=sshusers,ou=groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: sshusers
+gidNumber: 501
+memberUid: j.kocherhans
+description: Group for SSH Access Client.

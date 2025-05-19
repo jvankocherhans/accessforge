@@ -15,14 +15,26 @@ from model.ACCESS import ACCESS
 from forms.AssignUsersForm import AssignUsersForm
 
 
-def create_search_blueprint(ldapmanager_conn):
+def create_search_blueprint(ldapmanager_conn, mongo_handler):
+    """
+    @param ldapmanager_conn: Instance of the LDAP manager used for searching users and groups.
+    @param mongo_handler: Instance for logging user activities.
+
+    @return: Configured Flask Blueprint with routes for searching and managing users/groups.
+
+    Creates a Flask Blueprint for search-related functionality, including user and group search, 
+    managing a shopping cart for selected users/groups, and displaying relevant results.
+    """
     search_blueprint = Blueprint('search_blueprint', __name__)
 
     @search_blueprint.route("/search", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def search():
-        is_admin = current_user.is_admin()
+        """
+        Handles the search form submission and redirects to either user or group search based on input.
 
+        @return: Redirects to user or group search page based on the search type.
+        """
         if request.method == "POST":
             search_type = request.form.get('search-type')
             search_input = request.form.get('search-input')
@@ -36,16 +48,20 @@ def create_search_blueprint(ldapmanager_conn):
                 return redirect(url_for('search_blueprint.search_users', searchinput=search_input))
             
         else:
-            return render_template('search.html', is_admin=is_admin)
+            return render_template('search.html', is_admin=current_user.is_admin())
 
     @search_blueprint.route("/search/users", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def search_users():
+        """
+        Handles the user search functionality and adds selected users to the session cart.
+
+        @return: Renders a list of users based on the search input and displays selected users in the cart.
+        """
         if "user_cart" not in session:
             session["user_cart"] = []
 
-        # Get the search input from the query string (via GET request)
-        searchinput = request.args.get("searchinput", "")
+        searchinput = request.args.get("searchinput")
         
         if request.method == "POST":
             if "add_user" in request.form:
@@ -61,21 +77,27 @@ def create_search_blueprint(ldapmanager_conn):
         users = ldapmanager_conn.search_users(searchinput)
 
         return render_template(
-            "test/test_list_users.html",
+            "listing/listing_user.html",
             users=users,
             searchinput=searchinput,
             cart_names=[user["username"] for user in session["user_cart"]],
-            amount_users=len(session["user_cart"])
+            amount_users=len(session["user_cart"]),
+            is_admin=current_user.is_admin()
         )
 
     @search_blueprint.route("/search/groups", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def search_groups():
+        """
+        Handles the group search functionality and adds selected groups to the session cart.
+
+        @return: Renders a list of groups based on the search input and displays selected groups in the cart.
+        """
         if "cart" not in session:
             session["cart"] = []
 
-        # Get the search input from the query string (via GET request)
-        searchinput = request.args.get("searchinput", "")
+        # Get the search input from the query string
+        searchinput = request.args.get("searchinput")
         
         if request.method == "POST":
             if "add_group" in request.form:
@@ -92,15 +114,15 @@ def create_search_blueprint(ldapmanager_conn):
                     })
                     session.modified = True
 
-        # Perform the search with the provided search input
         groups = ldapmanager_conn.search_groups(searchinput)
 
         return render_template(
-            "test/test_list_groups.html",
+            "listing/listing_group.html",
             groups=groups,
             searchinput=searchinput,
             cart_names=[group["groupname"] for group in session["cart"]],
-            amount_groups=len(session["cart"])
+            amount_groups=len(session["cart"]),
+            is_admin=current_user.is_admin()
         )
 
         
@@ -108,6 +130,11 @@ def create_search_blueprint(ldapmanager_conn):
     @search_blueprint.route("/shopping-cart", methods=["GET", "POST"])
     @requires_access_level(ACCESS['user'])
     def shopping_cart():
+        """
+        Displays the shopping cart for users/groups that have been selected.
+
+        @return: Renders the shopping cart page with the selected groups and a form for assigning users to groups.
+        """
         if "cart" not in session or len(session["cart"]) == 0:
             return redirect(url_for("search_blueprint.search_groups"))
 
@@ -117,6 +144,6 @@ def create_search_blueprint(ldapmanager_conn):
 
         users = ldapmanager_conn.get_all_users()
 
-        return render_template('test/test_shopping_cart.html', form=form, groups=session["cart"], users=users)
+        return render_template('shopping_cart.html', form=form, groups=session["cart"], users=users)
 
     return search_blueprint

@@ -1,5 +1,29 @@
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from model.ACCESS import ACCESS
+from mongoengine import Document, StringField, DateTimeField, DictField
+from enum import Enum
+import datetime
+
+class FlashMsgType(Enum):
+    SUCCESS = "success"
+    ERROR = "error"
+    WARNING = "warning"
+    INFO = "info"
+
+class UserActivityEnum(Enum):
+    LOGIN = "Login"
+    LOGOUT = "Logout"
+    ASSIGN = "Assign"
+    CREATE_GROUP = "Create group"
+    ORDER_GROUP = "Order group"
+    CANCEL_GROUP = "Cancel group"
+    DELETE_GROUP = "Delete group"
+
+class Activity(Document):
+    activity = StringField(required=True, choices=[e.value for e in UserActivityEnum])  # Restrict to Enum values
+    initiator = StringField(required=True, max_length=20)
+    datetime = DateTimeField(default=datetime.datetime.now)
+    details = DictField()
 
 class LdapLoginUser(UserMixin):
     def __init__(self, username, access):
