@@ -2,6 +2,9 @@ from mongoengine import connect
 from model.models import Activity, UserActivityEnum
 
 class MongoHandler:
+    """
+    MongoHandler executes all MongoDB relevant actions
+    """
     def __init__(self, username, password, server, dbname):
         # Connect to the MongoDB server
         self.db = connect(

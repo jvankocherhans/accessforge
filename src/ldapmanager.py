@@ -10,6 +10,9 @@ import time
 
 
 class LDAPManager():
+    """
+    LDAPManager Object executres all ldap relevant actions
+    """
     def __init__(self, ldap_server, base_dn, ldap_conn_user_name, ldap_conn_user_pwd, max_retries=10, retry_delay=5):
         self.ldap_server = ldap_server
         self.base_dn = base_dn
