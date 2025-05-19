@@ -35,7 +35,7 @@
   </header>
 
   <div class="page-container">
-    <h1><i class="fas fa-users header-icon"></i> Neue Gruppe erstellen</h1>
+    <h1><i class="fas fa-users header-icon"></i> Create new group</h1>
 
     <form action="{{ url_for('group_blueprint.create_group') }}" method="POST" class="create-group-form">
       <div class="input-group">
@@ -45,7 +45,7 @@
         {{ render_field(form.group_description , class_="form-control", value="") }}
       </div>
       <button type="submit" class="btn-create">
-        <i class="fas fa-users"></i> Gruppe erstellen
+        <i class="fas fa-users"></i> Create group
       </button>
     </form>
   </div>
