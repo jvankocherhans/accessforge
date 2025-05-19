@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, session, redirect, url_for, flash
 from flask_login import current_user
 from controllers.decorator import requires_access_level
 from model.ACCESS import ACCESS
-from model.models import Activity, UserActivityEnum
+from model.models import Activity, UserActivityEnum, FlashMsgType
 from forms.ActivityForm import ActivityFilterForm
 from datetime import datetime, timedelta
 
@@ -34,7 +34,7 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
             for group in groups:
                 ldapmanager_conn.add_user_to_group(username, group)   
 
-        flash(f"Successfully assigned to group!")
+        flash(f"Successfully assigned to group!", FlashMsgType.SUCCESS)
         
         session["cart"] = []
         
