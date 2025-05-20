@@ -44,7 +44,7 @@ def create_action_blueprint(ldapmanager_conn, mongo_handler):
             for group in groups:
                 ldapmanager_conn.add_user_to_group(username, group)   
 
-        flash(f"Successfully assigned to group!", FlashMsgType.SUCCESS)
+        flash(f"Successfully assigned to group!", FlashMsgType.SUCCESS.value)
         
         session["cart"] = []
         
