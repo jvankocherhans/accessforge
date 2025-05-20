@@ -54,7 +54,6 @@ services:
 
   compass:
     image: mongo-express:latest
-    restart: always
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_DB_USERNAME}
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_DB_PASSWORD}
