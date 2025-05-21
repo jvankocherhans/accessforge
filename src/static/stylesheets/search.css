@@ -88,6 +88,14 @@
   text-decoration: none;
 }
 
+.activity-button {
+  text-decoration: none;
+}
+
+.fa-tasks{
+  text-decoration: none;
+}
+
 @media (max-width: 768px) {
   .search-container {
     max-width: 90%;
