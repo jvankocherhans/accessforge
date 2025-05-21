@@ -9,13 +9,20 @@ services:
       - LDAP_DOMAIN=${LDAP_DOMAIN}
       - LDAP_BASE_DN=${LDAP_BASE_DN}
       - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
-      - LDAP_READONLY_USER_PASSWORD=${LDAP_USER_PASSWORD}
+      - LDAP_READONLY_USER_PASSWORD_ENCRYPTED=${LDAP_USER_PASSWORD}
+      - LDAP_TLS=false  
     ports:
       - "389:389"
-      - "636:636"
+      # - "636:636"
     volumes:
       - ./ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
-    command: --copy-service 
+    command: --copy-service
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "389"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
@@ -37,6 +44,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
+    ports:
+      - 27017:27017
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok"]
       interval: 5s
@@ -45,7 +54,6 @@ services:
 
   compass:
     image: mongo-express:latest
-    restart: always
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_DB_USERNAME}
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_DB_PASSWORD}
@@ -59,3 +67,15 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+
+  accessforge:
+    build: ./src
+    container_name: accessforge
+    ports:
+      - "5000:5000"
+    depends_on:
+      - ldap
+      - mongo
+    env_file:
+      - .env
+

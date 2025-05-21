@@ -1,0 +1,138 @@
+/* General layout */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9fb;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+
+.column-filter-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem 2rem;
+  padding: 2rem;
+  background-color: #fff;
+  margin: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Einheitliche Feld-Wrapper */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Einheitliche Eingabefelder */
+.filter-select,
+.filter-input,
+.filter-date {
+  margin-top: 0.25rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.filter-select:focus,
+.filter-input:focus,
+.filter-date:focus {
+  border-color: #7b2cbf;
+  outline: none;
+}
+
+.filter-button {
+  grid-column: 1 / -1;
+  padding: 0.85rem 1.5rem;
+  background-color: #7b2cbf;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #5e2391;
+}
+
+/* Table styling */
+.activity-wrapper {
+  padding: 1rem 2rem 3rem;
+  background-color: #fff;
+  margin: 0 2rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.activity-table th,
+.activity-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+
+.activity-table th {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #555;
+}
+
+.activity-table td pre {
+  font-size: 0.85rem;
+  background-color: #f4f4f4;
+  padding: 0.5rem;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.errors {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.activity-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.activity-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #7b2cbf;
+  color: white;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(123, 44, 191, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.activity-button i {
+  font-size: 1rem;
+}
+
+.activity-button:hover {
+  background-color: #5e2391;
+  transform: translateY(-2px);
+}

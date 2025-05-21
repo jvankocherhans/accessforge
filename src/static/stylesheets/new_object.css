@@ -1,0 +1,119 @@
+.form-header {
+  text-align: center;
+  padding: 1rem 0 0.5rem 0;
+}
+
+.form-logo {
+  height: 50px;
+  transition: transform 0.3s ease;
+}
+
+.form-logo:hover {
+  transform: scale(1.05);
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0.5rem auto;
+  padding-top: 1rem;
+}
+
+.create-group-form {
+  background-color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(123, 44, 191, 0.1);
+  padding: 1.5rem 2rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: var(--text-dark);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-create {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  margin-top: 0.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-logout-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+}
+
+.logout-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.header-icon {
+  color: var(--primary-color); /* Gleiche Farbe wie der Button */
+}
+
+@media (max-width: 768px) {
+  .form-logo {
+    height: 40px;
+  }
+  
+  .create-group-form {
+    padding: 1rem;
+    margin-top: 0;
+  }
+  
+  .form-logout-container {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .page-container {
+    padding-top: 0.5rem;
+  }
+}
+
+.error-text {
+  color: #cc0000;       
+  font-weight: bold; 
+  margin-top: 4px;
+  font-size: 0.95rem;
+  list-style: none;
+}
+
+.error-list {
+  padding-left: 0;
+  margin: 0;
+}

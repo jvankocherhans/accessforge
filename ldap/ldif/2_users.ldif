@@ -1,0 +1,215 @@
+dn: uid=j.kocherhans,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Jvan Kocherhans
+sn: Kocherhans
+givenName: Jvan
+uid: j.kocherhans
+uidNumber: 10099
+gidNumber: 10000
+homeDirectory: /home/j.kocherhans
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: j.kocherhans@castle.com
+telephoneNumber: +41 79 123 45 67
+departmentNumber: IT
+
+dn: uid=t.wittmer,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Thierry Wittmer
+sn: Wittmer
+givenName: Thierry
+uid: t.wittmer
+uidNumber: 10001
+gidNumber: 10000
+homeDirectory: /home/t.wittmer
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: t.wittmer@castle.com
+telephoneNumber: +41 78 987 65 43
+departmentNumber: IT
+
+dn: uid=a.mueller,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Alice Müller
+sn: Müller
+givenName: Alice
+uid: a.mueller
+uidNumber: 10002
+gidNumber: 10000
+homeDirectory: /home/a.mueller
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: a.mueller@castle.com
+telephoneNumber: +41 79 111 22 33
+departmentNumber: IT
+
+dn: uid=b.schmidt,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Benjamin Schmidt
+sn: Schmidt
+givenName: Benjamin
+uid: b.schmidt
+uidNumber: 10003
+gidNumber: 10000
+homeDirectory: /home/b.schmidt
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: b.schmidt@castle.com
+telephoneNumber: +41 78 444 55 66
+departmentNumber: IT
+
+dn: uid=c.weber,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Charlotte Weber
+sn: Weber
+givenName: Charlotte
+uid: c.weber
+uidNumber: 10004
+gidNumber: 10000
+homeDirectory: /home/c.weber
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: c.weber@castle.com
+telephoneNumber: +41 79 333 44 55
+departmentNumber: IT
+
+dn: uid=d.fischer,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Daniel Fischer
+sn: Fischer
+givenName: Daniel
+uid: d.fischer
+uidNumber: 10005
+gidNumber: 10000
+homeDirectory: /home/d.fischer
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: d.fischer@castle.com
+telephoneNumber: +41 78 555 66 77
+departmentNumber: IT
+
+dn: uid=e.schneider,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Eva Schneider
+sn: Schneider
+givenName: Eva
+uid: e.schneider
+uidNumber: 10006
+gidNumber: 10000
+homeDirectory: /home/e.schneider
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: e.schneider@castle.com
+telephoneNumber: +41 79 666 77 88
+departmentNumber: IT
+
+dn: uid=f.braun,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Florian Braun
+sn: Braun
+givenName: Florian
+uid: f.braun
+uidNumber: 10007
+gidNumber: 10000
+homeDirectory: /home/f.braun
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: f.braun@castle.com
+telephoneNumber: +41 78 777 88 99
+departmentNumber: IT
+
+dn: uid=g.keller,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Georg Keller
+sn: Keller
+givenName: Georg
+uid: g.keller
+uidNumber: 10008
+gidNumber: 10000
+homeDirectory: /home/g.keller
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: g.keller@castle.com
+telephoneNumber: +41 79 888 99 00
+departmentNumber: IT
+
+dn: uid=h.schmid,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Hannah Schmid
+sn: Schmid
+givenName: Hannah
+uid: h.schmid
+uidNumber: 10009
+gidNumber: 10000
+homeDirectory: /home/h.schmid
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: h.schmid@castle.com
+telephoneNumber: +41 78 999 00 11
+departmentNumber: IT
+
+dn: uid=i.zimmermann,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Isabelle Zimmermann
+sn: Zimmermann
+givenName: Isabelle
+uid: i.zimmermann
+uidNumber: 10010
+gidNumber: 10000
+homeDirectory: /home/i.zimmermann
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: i.zimmermann@castle.com
+telephoneNumber: +41 79 222 33 44
+departmentNumber: IT
+
+dn: uid=c.inauen,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: inetorgperson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Christian Inauen
+sn: Inauen
+givenName: Christian
+uid: c.inauen
+uidNumber: 10011
+gidNumber: 10000
+homeDirectory: /home/c.inauen
+loginShell: /bin/bash
+userPassword: {SSHA}UbxaYKsJuNl8q0cP+BAyLgIWPLKmxh2R
+mail: c.inauen@castle.com
+telephoneNumber: +41 79 333 44 55
+departmentNumber: IT

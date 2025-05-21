@@ -1,0 +1,48 @@
+{% extends "listing/listing_base.html" %}
+
+{% block title %}Benutzer suchen | Self-Service{% endblock %}
+
+{% block search_input %}
+  <form class="search-form-width" method="get" action="{{ url_for('search_blueprint.search_users') }}">
+    <div class="search-wrapper">
+      <input type="text" class="search-input" name="searchinput" placeholder="Search..." />
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i> <!-- Search icon -->
+      </button>
+    </div>
+  </form>
+{% endblock %}
+
+{% block content %}
+  <div class="user-listing-container">
+    <div class="user-list">
+      {% for user in users %}
+      <div class="user-card">
+        <div class="user-info">
+          <h3 class="user-name">{{ user.firstname }} {{ user.lastname }}</h3>
+          <div class="user-details">
+            <div class="detail-item">
+              <i class="fas fa-user-tag"></i>
+              <span>{{ user.username }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-envelope"></i>
+              <span>{{ user.mail }}</span>
+            </div>
+          </div>
+        </div>
+        {% if is_admin %}
+        <div class="user-actions">
+          <form method="get" action="{{ url_for('user_blueprint.get_user') }}">
+            <input type="hidden" name="user" value="{{ user.username }}">
+            <button type="submit" class="icon-button info-button" aria-label="Benutzerdetails">
+              <i class="fas fa-info-circle"></i>
+            </button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

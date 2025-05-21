@@ -1,0 +1,14 @@
+{% macro confirm_modal(modal_id="confirmModal") %}
+<div id="{{ modal_id }}" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="modal-title">Are you sure?</h3>
+    <p id="modal-text">Do you want to proceed?</p>
+    <div class="modal-buttons">
+      <button type="button" class="confirm-btn">Yes</button>
+      <button type="button" class="cancel-btn">No</button>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+<script src="{{ url_for('static', filename='scripts/confirm-modal.js') }}"></script>

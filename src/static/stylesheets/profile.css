@@ -1,0 +1,145 @@
+.user-header {
+  text-align: center;
+  padding: var(--space-md) var(--space-lg) 0;
+}
+
+.small-logo {
+  height: 50px;
+  margin-bottom: var(--space-sm);
+  transition: transform 0.3s ease;
+}
+
+.small-logo:hover {
+  transform: scale(1.05);
+}
+
+.user-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--space-lg) var(--space-lg);
+  position: relative;
+}
+
+.info-card {
+  background: var(--white);
+  padding: var(--space-lg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 600px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--primary-color);
+  margin: var(--space-md) 0;
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: var(--space-sm);
+}
+
+.section-title i {
+  font-size: 1.1em;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-label {
+  color: var(--text-light);
+  font-weight: 500;
+  flex-basis: 40%;
+}
+
+.info-value {
+  color: var(--text-dark);
+  text-align: right;
+  flex-basis: 60%;
+}
+
+.groups-section {
+  margin-top: var(--space-md);
+}
+
+.group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid #eee;
+}
+
+.remove-group-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: var(--space-sm);
+  transition: all 0.3s ease;
+}
+
+.remove-group-btn:hover {
+  color: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.remove-group-btn i {
+  color: #dc3545;
+}
+
+.logout-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: transparent;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: none;
+}
+
+.logout-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logout-link:hover {
+  color: var(--primary-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-header {
+    padding: var(--space-sm) var(--space-md) 0;
+  }
+
+  .small-logo {
+    height: 40px;
+  }
+
+  .info-card {
+    padding: var(--space-md);
+    max-width: 90%;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .logout-container {
+    bottom: 10px;
+    right: 10px;
+  }
+}

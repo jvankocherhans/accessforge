@@ -1,0 +1,122 @@
+/* Base styling for the page */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background, #f2f4f8);
+  padding: 2rem;
+  color: var(--text-dark, #333);
+}
+
+/* Title and section headers */
+h1, h2 {
+  color: var(--primary-color, #7b2cbf);
+  margin-bottom: 1.5rem;
+}
+
+/* List of selected groups */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: var(--white, #fff);
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Font Awesome remove icon button */
+.remove-group-btn {
+  background: none;
+  border: none;
+  color: var(--error-color, #d9534f);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.25rem;
+}
+
+.remove-group-btn:hover {
+  color: #a94442;
+  transform: scale(1.15);
+}
+
+/* Form section for assigning users */
+form#bulkAssignForm {
+  background-color: var(--white, #fff);
+  padding: 2rem 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-top: 2rem;
+}
+
+/* Input search field */
+#userSearch {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+/* Autocomplete dropdown */
+#autocompleteResults {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: -0.25rem;
+  padding: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Selected users list */
+#selectedUsersList {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+#selectedUsersList li {
+  background-color: #eef0f4;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+/* Submit button */
+#submitButton.btn {
+  display: inline-block;
+  background-color: var(--primary-color, #7b2cbf);
+  color: white;
+  padding: 0.9rem 1.75rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#submitButton.btn:hover:enabled {
+  background-color: var(--primary-dark, #5e2391);
+  transform: translateY(-2px);
+}
+
+#submitButton.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.listing-header {
+  padding: 0px !important;
+}
