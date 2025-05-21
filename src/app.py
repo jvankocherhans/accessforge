@@ -40,7 +40,7 @@ ldapmanager_conn = LDAPManager(ldap_server, base_dn, ldap_conn_user_name, ldap_c
 mongo_handler = MongoHandler(username=mongo_db_user, password=mongo_db_password, server=mongo_db_server, dbname=mongo_db_database_name)
 
 app.config['WTF_CSRF_ENABLED'] = False
-app.secret_key = "my_secret_key"
+app.secret_key = "Adminadmin1"
 
 login_manager = LoginManager()
 login_manager.login_view = "user_blueprint.login" 

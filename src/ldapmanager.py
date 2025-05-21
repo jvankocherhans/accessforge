@@ -22,6 +22,9 @@ class LDAPManager():
         self.max_retries = max_retries  # Max number of retries
         self.retry_delay = retry_delay  # Delay between retries in seconds
 
+        self.users_dn = 'ou=users,' + self.base_dn
+        self.groups_dn = 'ou=groups,' + self.base_dn
+        
         self.__setup_connection()
 
     def __setup_connection(self):
@@ -64,29 +67,26 @@ class LDAPManager():
 
         Authenticates a user against the LDAP server and returns their access level.
         """
-        user_dn = f'uid={login_user_name},ou=users,{self.base_dn}'
+        user_dn = f'uid={login_user_name},{self.users_dn}'
 
         user_connection = Connection(
             self.server, user=user_dn, password=login_user_pwd)
         if not user_connection.bind():
             return None 
 
-        self.__setup_connection()
-
         # Standard userrole
         access = ACCESS["user"]
 
         self.connection.search(
-            search_base='ou=groups,' + self.base_dn,
+            search_base=self.groups_dn,
             search_filter=f'(memberUid={login_user_name})',
             search_scope=SUBTREE,
             attributes=['cn']
         )
 
-        # check if user is administrator 
+        # check if user is administrator / is in "af admins" group
         for entry in self.connection.entries:
             group = entry.cn.value
-            print(group)
             if group == 'af admins':
                 access = ACCESS["admin"]
                 break
@@ -102,7 +102,7 @@ class LDAPManager():
         Fetches detailed information about a specific LDAP user.
         """
         self.connection.search(
-            search_base='ou=users,' + self.base_dn,
+            search_base=self.users_dn,
             search_filter=f'(uid={username})',
             search_scope=SUBTREE,
             attributes=['givenName', 'sn', 'mail',
@@ -120,7 +120,7 @@ class LDAPManager():
 
         # searches for groups user is member of
         self.connection.search(
-            search_base='ou=groups,' + self.base_dn,
+            search_base=self.groups_dn,
             search_filter=f'(memberUid={username})',
             search_scope=SUBTREE,
             attributes=['cn']
@@ -156,7 +156,7 @@ class LDAPManager():
             search_filter = f'(|(givenName=*{searchinput}*)(sn=*{searchinput}*)(uid=*{searchinput}*))'
 
         self.connection.search(
-            search_base=f'ou=users,{self.base_dn}',
+            search_base=self.users_dn,
             search_filter=search_filter,
             search_scope=SUBTREE,
             attributes=['givenName', 'sn', 'uid', 'mail',
@@ -228,7 +228,7 @@ class LDAPManager():
         Finds the next free gidNumber for a new group.
         """
         self.connection.search(
-            search_base='ou=groups,' + self.base_dn,
+            search_base=self.groups_dn,
             search_filter='(objectClass=posixGroup)',
             search_scope=SUBTREE,
             attributes=['gidNumber']
@@ -280,7 +280,7 @@ class LDAPManager():
 
         Retrieves information about a specific group from LDAP.
         """
-        search_base = f'ou=groups,{self.base_dn}'
+        search_base = self.groups_dn
         search_filter = f"(cn={group_name})"
         attributes = ['cn', 'gidNumber', 'description']
 
@@ -328,7 +328,7 @@ class LDAPManager():
             search_filter = f'(|(cn=*{searchinput}*)(description=*{searchinput}*))'
 
         self.connection.search(
-            search_base=f'ou=groups,{self.base_dn}',
+            search_base=self.groups_dn,
             search_filter=search_filter,
             search_scope=SUBTREE,
             attributes=['gidNumber', 'cn', 'description']

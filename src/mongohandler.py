@@ -25,7 +25,7 @@ class MongoHandler:
         Funktion erstellt basierend auf den Input Parametern eine Aktivität, welche in der MongoDB gespeichert wird.
         """
         
-        # Existiert Aktivitätstyp?
+        # Does Activity exist?
         if activity_enum.value not in [e.value for e in UserActivityEnum]:
             raise ValueError(f"Invalid activity name: {activity_enum.value}. Must be one of {', '.join([e.value for e in UserActivityEnum])}")
 
