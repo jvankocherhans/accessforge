@@ -19,8 +19,14 @@
         <i class="fas fa-arrow-left"></i>
       </a>
     </div>
-    <div class="header-center">
-    </div>
+  <div class="header-center">
+    <a href="{{ url_for('search_blueprint.search') }}" class="activity-logo-link">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" 
+           class="activity-logo" 
+           alt="Accessforge-Logo"
+           title="Zur Startseite">
+    </a>
+  </div>
     <div class="header-right">
       <a href="{{ url_for('user_blueprint.profile') }}" class="icon-button">
         <i class="fas fa-user"></i>

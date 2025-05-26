@@ -136,3 +136,44 @@ body {
   background-color: #5e2391;
   transform: translateY(-2px);
 }
+
+/* Activity Logo Styling wie in profile.css */
+.activity-logo-link {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.activity-logo {
+  height: 50px; /* Gleich wie .small-logo im Profil */
+  margin-bottom: 0; 
+  width: auto;
+  max-width: 180px;
+}
+
+.activity-logo-link:hover {
+  transform: scale(1.05); /* Gleicher Hover-Effekt wie Profil-Logo */
+}
+
+/* Header-Center Anpassung */
+.listing-header .header-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+/* Responsive Anpassungen wie im Profil */
+@media (max-width: 768px) {
+  .activity-logo {
+    height: 40px;
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-logo {
+    height: 30px;
+    max-width: 100px;
+  }
+}
