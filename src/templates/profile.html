@@ -27,11 +27,13 @@
       {% endif %}
     </div>
 
-    <div class="header-center">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" 
-           class="small-logo" 
-           alt="Accessforge-Logo"
-           title="Zur Suche zurückkehren">
+
+<div class="header-center">
+  <a href="{{ url_for('search_blueprint.search') }}" class="logo-link">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         class="small-logo" 
+         alt="Accessforge-Logo"
+         title="Zur Suche zurückkehren">
     </a>
     </div>
 

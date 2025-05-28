@@ -23,11 +23,10 @@
 
     <div class="header-right">
       <a href="{{ url_for('search_blueprint.search_groups') }}" class="icon-button back-button"><i class="fa fa-times"></i></a>
-
     </div>
   </header>
   <br>
-  <h1>Shopping Cart 🛒</h1>
+  <h1>Shopping Cart <i class="fas fa-shopping-cart cart-icon"></i></h1>
 
   <!-- Groups in Cart -->
   <div>
@@ -45,10 +44,11 @@
       {% endfor %}
     </ul>
   </div>
-
-  <div>
-    <h2>Assign Users</h2>
-    <form id="bulkAssignForm" action="{{ url_for('action_blueprint.bulk_assign_users_to_groups') }}" method="POST">
+  
+<div>
+  <h1>Assign Users <i class="fas fa-user user-icon"></i></h1>
+  <form id="bulkAssignForm" action="{{ url_for('action_blueprint.bulk_assign_users_to_groups') }}" method="POST">
+  
       {{ form.hidden_tag() }}
 
       <!-- Search for users -->
@@ -71,5 +71,4 @@
 
   <script src="{{ url_for('static', filename='scripts/shopping-cart.js') }}"></script>
 </body>
-
 </html>
